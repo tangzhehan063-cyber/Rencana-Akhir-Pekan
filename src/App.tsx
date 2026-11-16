@@ -25,6 +25,11 @@ import {
 const STORAGE_KEY = 'travel_planning_sheet_items_v1';
 const MODIFIED_KEY = 'travel_planning_sheet_modified_v1';
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+const SHEET_ID = import.meta.env.VITE_SHEET_ID || '1G24LukdHpRqvQzMXbmqY3H1ac5lKAa8WQReoCqoqOts';
+const SHEET_TAB = import.meta.env.VITE_SHEET_TAB || 'TRAVEL PLAN';
+const SHEET_CSV_URL =
+  import.meta.env.VITE_SHEET_CSV_URL ||
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB)}`;
 
 interface ToastState {
   message: string;
@@ -93,8 +98,14 @@ export default function App() {
   useEffect(() => {
     if (isModified) return;
     let active = true;
-    fetch('/assets/aistudio/Travel_Planning_e4d1c233')
-      .then((res) => (res.ok ? res.text() : null))
+    // Sumber utama: tab "TRAVEL PLAN" di Google Sheet (harus bisa dibaca via link).
+    // Kalau gagal, jatuh ke CSV bawaan di /assets.
+    const fetchCsv = (url: string) =>
+      fetch(url).then((res) => (res.ok ? res.text() : null));
+    (SHEET_CSV_URL ? fetchCsv(SHEET_CSV_URL).catch(() => null) : Promise.resolve(null))
+      .then((text) =>
+        text ? text : fetchCsv('/assets/aistudio/Travel_Planning_e4d1c233')
+      )
       .then((text) => {
         if (!active || !text) return;
         const parsed = parseScheduleCsv(text);
