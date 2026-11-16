@@ -1,0 +1,6 @@
+{
+  "name": "Rencana Akhir Pekan",
+  "description": "Aplikasi web perencanaan jadwal akhir pekan, aktivitas, dan perjalanan dari Google Sheet Travel Planning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
