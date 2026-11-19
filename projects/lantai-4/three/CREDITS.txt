@@ -1,0 +1,8 @@
+Music: "Darkest Child" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+Changes: excerpt from the start, volume lowered, fade in/out, ducked under narration.
+
+Sound effects: Kenney (Impact Sounds, Interface Sounds) — CC0; OwlishMedia "202 More Sound Effects" (plastic) — CC0; LEGIT Audio "The Shop" (fridge drone) — CC0.
+Synthesized hum/ding/door-slide/drone: generated with FFmpeg for this project.
+Narration: Google Gemini TTS, voice Charon.

@@ -8,3 +8,8 @@ __pycache__/
 autopilot-work/
 projects/*/film/audio/chunks/
 projects/*/film/output/
+projects/*/three/node_modules/
+projects/*/three/out/*.wav
+projects/*/three/out/video-*.mp4
+projects/*/three/out/render.log
+projects/*/three/sfx/*.wav
