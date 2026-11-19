@@ -57,62 +57,70 @@ const steelDark = std(0x5d646b, {r: 0.5, m: 0.55});
 
 // ---------- STICKMAN RIG ----------
 function makeStick() {
+  // Rebuilt rig v3: capsule limbs, short shoulders/hips, head ~1/6 of height.
+  const HR = 0.14, LR = 0.043, TR = 0.062;          // head radius, limb radius, torso radius
+  const UPPER = 0.28, FORE = 0.27, THIGH = 0.42, SHIN = 0.42, TORSO = 0.46;
+  const HIP_Y = THIGH + SHIN + 0.035;
   const root = new THREE.Group();
-  const hips = new THREE.Group(); hips.position.y = 0.92; root.add(hips);
-  const limb = (len, r = 0.034) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 10), black);
-    m.position.y = -len / 2; m.castShadow = true; g.add(m); const j = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), black); g.add(j); return g; };
-  // torso
+  const hips = new THREE.Group(); hips.position.y = HIP_Y; root.add(hips);
+  const capsule = (len, r) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 6, 14), black);
+    m.position.y = -len / 2; g.add(m); return g; };
+  // torso: slightly tapered capsule (wider chest)
   const torso = new THREE.Group(); hips.add(torso);
-  const spine = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.034, 0.52, 12), black); spine.position.y = 0.26; spine.castShadow = true; torso.add(spine);
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(TR, TORSO - TR, 8, 18), black); body.position.y = TORSO / 2; body.scale.set(1.05, 1, 0.8); torso.add(body);
+  const pelvis = new THREE.Mesh(new THREE.SphereGeometry(TR * 0.95, 16, 12), black); pelvis.scale.set(1.2, 0.8, 0.85); torso.add(pelvis);
   // tie + id card
   const tieMat = std(0x8c1c1c, {r: 0.7});
-  const knot = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.045, 0.03), tieMat); knot.position.set(0, 0.46, 0.045); torso.add(knot);
-  const tie = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.3, 0.014), tieMat); tie.position.set(0, 0.29, 0.05); tie.rotation.x = -0.06; tie.castShadow = true; torso.add(tie);
-  const card = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, 0.008), std(0x2f6fb5, {r: 0.5})); card.position.set(0.075, 0.31, 0.045); torso.add(card);
-  const lan = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.004, 4, 16, Math.PI), black); lan.position.set(0.03, 0.42, 0.02); lan.rotation.z = Math.PI; torso.add(lan);
+  const knot = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.045, 0.03), tieMat); knot.position.set(0, TORSO - 0.02, TR * 0.8); torso.add(knot);
+  const tie = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.27, 0.014), tieMat); tie.position.set(0, TORSO - 0.18, TR * 0.85); tie.rotation.x = -0.05; torso.add(tie);
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.043, 0.05, 4), tieMat); tip.rotation.set(Math.PI, Math.PI / 4, 0); tip.scale.set(1, 1, 0.3); tip.position.set(0, TORSO - 0.335, TR * 0.86); torso.add(tip);
+  const card = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.075, 0.008), std(0x2f6fb5, {r: 0.5})); card.position.set(0.075, TORSO - 0.17, TR * 0.8); card.rotation.y = 0.15; torso.add(card);
   // head
-  const neck = new THREE.Group(); neck.position.y = 0.52; torso.add(neck);
-  const head = new THREE.Group(); head.position.y = 0.155; neck.add(head);
-  const skull = new THREE.Mesh(new THREE.SphereGeometry(0.155, 40, 30), white); skull.castShadow = true; head.add(skull);
-  const ol = new THREE.Mesh(new THREE.SphereGeometry(0.155 * 1.06, 32, 24), outlineMat); head.add(ol);
-  const eyeGeo = new THREE.SphereGeometry(0.02, 14, 12);
-  const eyes = [-0.05, 0.05].map(x => { const e = new THREE.Mesh(eyeGeo, black); e.position.set(x, 0.025, 0.146); e.scale.set(0.8, 1.15, 0.45); head.add(e); return e; });
-  const pupils = eyes.map(e => { const p = new THREE.Mesh(new THREE.SphereGeometry(0.008, 8, 6), new THREE.MeshBasicMaterial({color: 0xffffff})); p.position.set(0.006, 0.01, 0.02); e.add(p); return p; });
-  const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.008, 0.01), black); mouth.position.set(0, -0.062, 0.142); head.add(mouth);
-  const mouthO = new THREE.Mesh(new THREE.TorusGeometry(0.014, 0.005, 6, 16), black); mouthO.position.set(0, -0.066, 0.143); head.add(mouthO);
-  const brows = [-0.05, 0.05].map((x, i) => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.008, 0.01), black); b.position.set(x, 0.068, 0.14); head.add(b); return b; });
-  // arms (pivot at shoulder on spine)
-  const mkArm = side => { const sh = new THREE.Group(); sh.position.set(side * 0.01, 0.42, 0); torso.add(sh);
-    const up = limb(0.31); sh.add(up); const el = new THREE.Group(); el.position.y = -0.31; up.add(el);
-    const fo = limb(0.29); el.add(fo); const wr = new THREE.Group(); wr.position.y = -0.29; fo.add(wr);
+  const neck = new THREE.Group(); neck.position.y = TORSO + 0.035; torso.add(neck);
+  const neckM = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.07, 10), black); neckM.position.y = 0.0; neck.add(neckM);
+  const head = new THREE.Group(); head.position.y = HR + 0.01; neck.add(head);
+  const skull = new THREE.Mesh(new THREE.SphereGeometry(HR, 40, 30), white); skull.scale.set(1, 1.04, 0.96); head.add(skull);
+  const ol = new THREE.Mesh(new THREE.SphereGeometry(HR * 1.06, 32, 24), outlineMat); ol.scale.copy(skull.scale); head.add(ol);
+  const eyeGeo = new THREE.SphereGeometry(0.019, 14, 12);
+  const EZ = HR * 0.93;
+  const eyes = [-0.045, 0.045].map(x => { const e = new THREE.Mesh(eyeGeo, black); e.position.set(x, 0.02, EZ); e.scale.set(0.8, 1.15, 0.45); head.add(e); return e; });
+  const pupils = eyes.map(e => { const p = new THREE.Mesh(new THREE.SphereGeometry(0.007, 8, 6), new THREE.MeshBasicMaterial({color: 0xffffff})); p.position.set(0.006, 0.01, 0.02); e.add(p); return p; });
+  const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.008, 0.01), black); mouth.position.set(0, -0.055, EZ - 0.006); head.add(mouth);
+  const mouthO = new THREE.Mesh(new THREE.TorusGeometry(0.013, 0.005, 6, 16), black); mouthO.position.set(0, -0.058, EZ - 0.004); head.add(mouthO);
+  const brows = [-0.045, 0.045].map(x => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.008, 0.01), black); b.position.set(x, 0.062, EZ - 0.01); head.add(b); return b; });
+  // arms: shoulders sit at the top corners of the chest
+  const mkArm = side => { const sh = new THREE.Group(); sh.position.set(side * (TR * 1.05), TORSO - 0.06, 0); torso.add(sh);
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(LR * 1.15, 12, 10), black); sh.add(ball);
+    const up = capsule(UPPER, LR); sh.add(up); const el = new THREE.Group(); el.position.y = -UPPER; up.add(el);
+    const fo = capsule(FORE, LR * 0.95); el.add(fo); const wr = new THREE.Group(); wr.position.y = -FORE; fo.add(wr);
     const glove = new THREE.Group(); wr.add(glove);
-    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.06, 18, 14), white); palm.scale.set(1, 1.12, 0.78); palm.position.y = -0.04; palm.castShadow = true; glove.add(palm);
-    const pol = new THREE.Mesh(new THREE.SphereGeometry(0.06 * 1.1, 14, 10), outlineMat); pol.scale.copy(palm.scale); pol.position.copy(palm.position); glove.add(pol);
-    const th = new THREE.Mesh(new THREE.SphereGeometry(0.022, 10, 8), white); th.position.set(side * -0.045, -0.025, 0.02); glove.add(th);
-    const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.042, 0.013, 8, 16), white); cuff.rotation.x = Math.PI / 2; cuff.position.y = 0.0; glove.add(cuff);
-    const finger = new THREE.Mesh(new THREE.CapsuleGeometry(0.014, 0.05, 4, 8), white); finger.position.set(0, -0.1, 0.0); finger.visible = false; glove.add(finger);
+    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.062, 18, 14), white); palm.scale.set(1, 1.1, 0.8); palm.position.y = -0.045; glove.add(palm);
+    const pol = new THREE.Mesh(new THREE.SphereGeometry(0.062 * 1.1, 14, 10), outlineMat); pol.scale.copy(palm.scale); pol.position.copy(palm.position); glove.add(pol);
+    const th = new THREE.Mesh(new THREE.SphereGeometry(0.023, 10, 8), white); th.position.set(side * -0.05, -0.03, 0.022); glove.add(th);
+    const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.014, 8, 16), white); cuff.rotation.x = Math.PI / 2; glove.add(cuff);
+    const finger = new THREE.Mesh(new THREE.CapsuleGeometry(0.016, 0.05, 4, 8), white); finger.position.set(0, -0.115, 0.0); finger.visible = false; glove.add(finger);
     return {sh, el, wr, finger}; };
   const L = mkArm(1), R = mkArm(-1);
-  const mkLeg = side => { const hp = new THREE.Group(); hp.position.set(side * 0.04, 0, 0); hips.add(hp);
-    const th = limb(0.44); hp.add(th); const kn = new THREE.Group(); kn.position.y = -0.44; th.add(kn);
-    const sh = limb(0.44); kn.add(sh); const foot = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 8), black); foot.scale.set(0.85, 0.5, 1.6); foot.position.set(0, -0.455, 0.04); foot.castShadow = true; sh.add(foot);
+  const mkLeg = side => { const hp = new THREE.Group(); hp.position.set(side * TR * 0.62, 0, 0); hips.add(hp);
+    const th = capsule(THIGH, LR * 1.08); hp.add(th); const kn = new THREE.Group(); kn.position.y = -THIGH; th.add(kn);
+    const sh = capsule(SHIN, LR); kn.add(sh);
+    const foot = new THREE.Mesh(new THREE.CapsuleGeometry(0.042, 0.07, 4, 10), black); foot.rotation.x = Math.PI / 2; foot.scale.set(1.15, 1, 0.75); foot.position.set(0, -SHIN - 0.02, 0.045); sh.add(foot);
     return {hp, kn}; };
   const LL = mkLeg(1), RL = mkLeg(-1);
-  root.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  root.traverse(o => { if (o.isMesh && o.material !== outlineMat) o.castShadow = true; });
   function pose(p) {
-    const P = Object.assign({la: [0.05, 0.12], le: 0.15, ra: [0.05, 0.12], re: 0.15, ll: [0, 0.03], lk: 0, rl: [0, 0.03], rk: 0,
+    const P = Object.assign({la: [0.05, 0.1], le: 0.15, ra: [0.05, 0.1], re: 0.15, ll: [0, 0.02], lk: 0, rl: [0, 0.02], rk: 0,
       head: [0, 0], lean: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0}, p);
     L.sh.rotation.set(-P.la[0], 0, P.la[1]); L.el.rotation.set(-P.le, 0, 0);
     R.sh.rotation.set(-P.ra[0], 0, -P.ra[1]); R.el.rotation.set(-P.re, 0, 0);
     LL.hp.rotation.set(-P.ll[0], 0, P.ll[1]); LL.kn.rotation.set(P.lk, 0, 0);
     RL.hp.rotation.set(-P.rl[0], 0, -P.rl[1]); RL.kn.rotation.set(P.rk, 0, 0);
-    torso.rotation.set(P.lean, 0, 0); hips.position.y = 0.92 + P.hipY;
+    torso.rotation.set(P.lean, 0, 0); hips.position.y = HIP_Y + P.hipY;
     neck.rotation.set(-P.head[1], P.head[0], 0);
-    eyes.forEach(e => { e.scale.set(0.8 * (0.85 + 0.15 * P.eyes), 1.15 * P.eyes, 0.45); e.position.x = Math.sign(e.position.x) * 0.05 + P.look[0] * 0.016; e.position.y = 0.025 + P.look[1] * 0.016; });
+    eyes.forEach(e => { e.scale.set(0.8 * (0.85 + 0.15 * P.eyes), 1.15 * P.eyes, 0.45); e.position.x = Math.sign(e.position.x) * 0.045 + P.look[0] * 0.015; e.position.y = 0.02 + P.look[1] * 0.015; });
     pupils.forEach(p => p.visible = P.eyes > 1.15);
     mouth.visible = P.mouth === 'flat'; mouthO.visible = P.mouth === 'o';
-    mouthO.scale.setScalar(P.mouth === 'o' ? 1 : 1);
-    brows.forEach((b, i) => { b.visible = Math.abs(P.brow) > 0.01; b.rotation.z = (i ? -1 : 1) * P.brow * 0.5; b.position.y = 0.068 + Math.abs(P.brow) * 0.012; });
+    brows.forEach((b, i) => { b.visible = Math.abs(P.brow) > 0.01; b.rotation.z = (i ? -1 : 1) * P.brow * 0.5; b.position.y = 0.062 + Math.abs(P.brow) * 0.012; });
     L.finger.visible = P.point > 0.5;
   }
   pose({});
@@ -176,7 +184,7 @@ for (const sx of [-1, 1]) { const w = new THREE.Mesh(new THREE.PlaneGeometry(26,
 const endWall = new THREE.Mesh(new THREE.PlaneGeometry(9, 3.2), new THREE.MeshStandardMaterial({map: wallTex, roughness: 1})); endWall.rotation.y = Math.PI; endWall.position.set(0, 1.6, 24); F4.add(endWall);
 // lift wall with opening x -0.6..0.6, y 0..2.2
 const lw = new THREE.MeshStandardMaterial({map: wallTex, roughness: 1});
-box(3.9, 3.2, 0.25, lw, -2.55, 1.6, -0.12, F4); box(3.9, 3.2, 0.25, lw, 2.55, 1.6, -0.12, F4); box(1.2, 1.0, 0.25, lw, 0, 2.7, -0.12, F4);
+box(3.9, 3.2, 0.25, lw, -2.55, 1.6, -0.12, F4); box(3.9, 3.2, 0.25, lw, 2.55, 1.6, -0.12, F4); box(1.2, 1.0, 0.25, lw, 0, 2.76, -0.12, F4);
 box(0.1, 2.25, 0.3, steelDark, -0.65, 1.12, -0.1, F4); box(0.1, 2.25, 0.3, steelDark, 0.65, 1.12, -0.1, F4); box(1.4, 0.1, 0.3, steelDark, 0, 2.25, -0.1, F4);
 const outLedTex = ledTex(); drawLed(outLedTex, '4');
 const outLed = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.17), new THREE.MeshBasicMaterial({map: outLedTex})); outLed.position.set(0, 2.47, 0.02); F4.add(outLed);
@@ -226,7 +234,7 @@ box(1.62, 0.04, 1.62, std(0x3b3530, {r: 0.9}), 0, 0.0, -0.8, CAB, false);
 box(1.62, 0.04, 1.62, std(0xc8c4b8, {r: 0.8}), 0, 2.32, -0.8, CAB, false);
 box(0.04, 2.32, 1.62, cabWall, -0.82, 1.16, -0.8, CAB, false); box(0.04, 2.32, 1.62, cabWall, 0.82, 1.16, -0.8, CAB, false); box(1.62, 2.32, 0.04, cabWall, 0, 1.16, -1.62, CAB, false);
 box(1.62, 0.06, 0.06, steel, 0, 0.95, -1.57, CAB, false); // handrail
-box(1.62, 0.1, 0.25, steelDark, 0, 2.27, -0.12, CAB, false); // header inside
+box(1.6, 0.1, 0.2, steelDark, 0, 2.27, -0.36, CAB, false); // header inside
 const cabLightPanel = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.0), new THREE.MeshBasicMaterial({color: 0xfff3d6})); cabLightPanel.rotation.x = Math.PI / 2; cabLightPanel.position.set(0, 2.295, -0.8); CAB.add(cabLightPanel);
 const cabLight = new THREE.PointLight(0xffefcf, 5.5, 4.5, 1.6); cabLight.position.set(0, 2.1, -0.8); cabLight.castShadow = true; cabLight.shadow.mapSize.set(1024, 1024); cabLight.shadow.bias = -0.002; cabLight.shadow.normalBias = 0.02; CAB.add(cabLight);
 const cabSpill = new THREE.SpotLight(0xffe2b0, 45, 22, 0.62, 0.7, 1.4); cabSpill.position.set(0, 2.0, -1.3); cabSpill.target.position.set(0, 0, 4); cabSpill.castShadow = true; cabSpill.shadow.mapSize.set(2048, 2048); cabSpill.shadow.bias = -0.001; cabSpill.shadow.normalBias = 0.03; CAB.add(cabSpill, cabSpill.target);
@@ -304,7 +312,7 @@ function shake(t, amp, freq = 18) { return V((noise1(t * freq) - .5) * amp, (noi
 function cam(pos, look, fov = 45, sh = null) { camera.fov = fov; camera.updateProjectionMatrix(); camera.position.copy(pos); if (sh) camera.position.add(sh); camera.lookAt(look); }
 function resetState() {
   F4.visible = true; CAB.visible = true; OF.visible = true; rudi.root.visible = true; scene.fog.density = 0.045;
-  doorL.position.x = -0.3; doorR.position.x = 0.3; cabLight.intensity = 5.5; cabLightPanel.material.color.set(0xfff3d6); cabSpill.intensity = 45;
+  doorL.position.x = -0.3; doorR.position.x = 0.3; cabLight.intensity = 5.5; cabLightPanel.material.color.set(0xfff3d6).multiplyScalar(0.62); cabSpill.intensity = 45;
   redLight.intensity = 0; drawLedIf(inLedTex, '5'); tapeGlow.intensity = 0; tapeGlowPlane.material.opacity = 0;
   for (const k in btn) setBtn(k, false); monScreen.visible = true; monLight.intensity = 4.5; workLight.intensity = 300; workFill.intensity = 14; coldFill.intensity = 4;
   rudi.root.rotation.set(0, 0, 0); rudi.root.scale.setScalar(1); cabLight.castShadow = true; swayPlastic(0, 1); renderer.toneMappingExposure = 1.0;
@@ -319,8 +327,8 @@ const shots = [
     rudiInCab(0.3, -0.72, 0); const up = seg(t, 1.55, 1.85);
     rudi.pose({head: [0.05, lerp(0.25, 0.45, up)], eyes: lerp(1, 1.35, up), mouth: up > .5 ? 'o' : 'flat', brow: up * 0.6});
     const four = t >= 1.55; drawLedIf(inLedTex, four ? '4' : '5'); redLight.intensity = four ? 1.6 : 0.25;
-    const fl = flicker(t, 1.55, 0.45); cabLight.intensity = 5.5 * fl; cabLightPanel.material.color.setScalar(fl > .5 ? 1 : 0.45);
-    cam(V(-0.45, 1.25, -1.52), V(0.0, 2.45, -0.2), 64, shake(t, four ? 0.03 * (1 - seg(t, 1.6, 2.2)) : 0.002));
+    const fl = flicker(t, 1.55, 0.45); cabLight.intensity = 5.5 * fl; cabLightPanel.material.color.setScalar(fl > .5 ? 0.62 : 0.3);
+    cam(V(-0.45, 1.25, -1.52), V(0.0, 2.45, -0.2), 64, four ? shake(t, 0.03 * (1 - seg(t, 1.6, 2.2))) : null);
   }},
   {name: 'office-clock', t0: 2.9, t1: 6.2, f(t) {
     rudi.root.position.set(40 + 0.0, 0, -1.0); rudi.root.rotation.y = Math.PI;
@@ -355,9 +363,9 @@ const shots = [
     const stop = t >= 13.55, up = seg(t, 13.6, 13.85);
     rudi.pose({head: [lerp(0.1, 0.0, up), lerp(0, 0.38, up)], eyes: lerp(1, 1.4, up), mouth: up > .5 ? 'o' : 'flat', brow: up * 0.7, la: [0.05, 0.25 * up], ra: [0.05, 0.25 * up]});
     drawLedIf(inLedTex, stop ? '4' : '5'); redLight.intensity = stop ? 2.4 : 0.2;
-    const fl = flicker(t, 13.55, 0.6); cabLight.intensity = 5.5 * fl; cabLightPanel.material.color.setScalar(fl > .5 ? 1 : 0.45);
+    const fl = flicker(t, 13.55, 0.6); cabLight.intensity = 5.5 * fl; cabLightPanel.material.color.setScalar(fl > .5 ? 0.62 : 0.3);
     const jolt = stop ? 0.05 * Math.exp(-(t - 13.55) * 5) : 0;
-    cam(V(-0.62, 1.55, -0.12), V(0.0, 1.55, -1.0), 50, shake(t, jolt + 0.002, 26));
+    cam(V(-0.62, 1.55, -0.12), V(0.0, 1.55, -1.0), 50, jolt > 0.0005 ? shake(t, jolt, 26) : null);
   }},
   {name: 'doors-open-pov', t0: 15.6, t1: 19.6, f(t) {
     rudiInCab(0.05, -0.9, 0); drawLedIf(inLedTex, '4'); redLight.intensity = 1.2; setBtn('G', true);
