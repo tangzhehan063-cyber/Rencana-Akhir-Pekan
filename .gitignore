@@ -14,3 +14,8 @@ projects/*/three/out/video-*.mp4
 projects/*/three/out/render.log
 projects/*/three/sfx/*.wav
 projects/*/three/out/lantai4-sample-*.mp4
+projects/absen/three/node_modules/
+projects/absen/three/out/*.wav
+projects/absen/three/out/video-*.mp4
+projects/absen/three/out/render.log
+projects/absen/three/sfx/*.wav
