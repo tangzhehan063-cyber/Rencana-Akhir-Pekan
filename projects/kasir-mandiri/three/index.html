@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Nunito;src:url(fonts/Nunito.ttf);font-weight:200 1000}
+@font-face{font-family:Anton;src:url(fonts/Anton.ttf)}
+@font-face{font-family:Caveat;src:url(fonts/Caveat.ttf)}
+html,body{margin:0;width:720px;height:1280px;overflow:hidden;background:#000}
+#c{position:absolute;left:0;top:0}
+#grain{position:absolute;inset:0;pointer-events:none;opacity:.035;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,0) 55%,rgba(0,0,0,.65) 100%)}
+#title{position:absolute;left:0;right:0;top:120px;text-align:center;pointer-events:none}
+#setup{font:900 40px Nunito;color:#f3ead8;letter-spacing:1px;text-shadow:3px 3px 0 #0b0b0b,0 0 18px rgba(0,0,0,.9)}
+#payoff{margin-top:18px;font:118px/1.02 Anton;color:#ef6a55;text-transform:uppercase;text-shadow:5px 6px 0 #140707,0 0 30px rgba(0,0,0,.8);transform-origin:50% 50%}
+#payoff .l2{display:block;font-size:84px;color:#f3ead8}
+#rule{margin:22px auto 0;height:4px;width:0;background:#ef6a55;border-radius:2px}
+#cap{position:absolute;left:50px;right:50px;bottom:250px;text-align:center;font:800 40px/1.25 Nunito;color:#fff;
+ text-shadow:0 0 6px #000,3px 3px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000}
+#cap b{color:#ffd166;font-weight:900}
+#cap.machine{font:700 34px/1.25 "Courier New",monospace;color:#8dffb4;letter-spacing:2px;text-shadow:0 0 10px #1aff6a,2px 2px 0 #000}
+#cctv{position:absolute;inset:0;display:none;font:700 26px "Courier New",monospace;color:#e8f0e8;text-shadow:2px 2px 0 #000}
+#cctv .tl{position:absolute;left:34px;top:40px}#cctv .tr{position:absolute;right:34px;top:40px;color:#ff4a3a}#cctv .bl{position:absolute;left:34px;bottom:120px}
+#end{position:absolute;left:0;right:0;top:46%;text-align:center;font:400 46px Anton;letter-spacing:8px;color:#d9d2c3;opacity:0}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+</style></head>
+<body>
+<canvas id="c" width="720" height="1280"></canvas>
+<canvas id="grain" width="360" height="640" style="width:720px;height:1280px"></canvas>
+<div id="vig"></div>
+<div id="title"><div id="setup"></div><div id="payoff"></div><div id="rule"></div></div>
+<div id="cap"></div>
+<div id="cctv"><div class="tl">CAM-02  KASIR MANDIRI</div><div class="tr">● REC</div><div class="bl"></div></div>
+<div id="end">BERSAMBUNG...</div>
+<div id="fade"></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module" src="scene.js"></script>
+</body></html>

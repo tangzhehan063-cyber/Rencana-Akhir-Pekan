@@ -1,0 +1,338 @@
+[
+{
+"start": 0.35,
+"end": 2.883,
+"text": "Ada barang tidak dikenal di area kemasan.",
+"machine": true,
+"hold": 3.483
+},
+{
+"start": 4.1,
+"end": 5.046,
+"text": "Jam tiga pagi.",
+"machine": false,
+"hold": 5.646
+},
+{
+"start": 5.979,
+"end": 7.007,
+"text": "Minimarket itu kosong.",
+"machine": false,
+"hold": 7.607
+},
+{
+"start": 7.687,
+"end": 8.627,
+"text": "Hanya ada Bayu,",
+"machine": false,
+"hold": 8.842
+},
+{
+"start": 8.842,
+"end": 9.579,
+"text": "penjaga malam,",
+"machine": false,
+"hold": 9.579
+},
+{
+"start": 9.579,
+"end": 11.055,
+"text": "dan satu mesin kasir mandiri",
+"machine": false,
+"hold": 11.055
+},
+{
+"start": 11.055,
+"end": 12.688,
+"text": "yang baru dipasang minggu lalu.",
+"machine": false,
+"hold": 13.288
+},
+{
+"start": 13.698,
+"end": 14.481,
+"text": "Sejak dipasang,",
+"machine": false,
+"hold": 15.081
+},
+{
+"start": 15.132,
+"end": 15.98,
+"text": "setiap jam tiga,",
+"machine": false,
+"hold": 16.58
+},
+{
+"start": 16.599,
+"end": 17.526,
+"text": "mesin itu bicara sendiri.",
+"machine": false,
+"hold": 18.126
+},
+{
+"start": 18.608,
+"end": 19.74,
+"text": "Bayu memeriksa area kemasan.",
+"machine": false,
+"hold": 20.34
+},
+{
+"start": 20.449,
+"end": 21.149,
+"text": "Kosong.",
+"machine": false,
+"hold": 21.71
+},
+{
+"start": 21.71,
+"end": 22.971,
+"text": "Tapi timbangannya menunjukkan",
+"machine": false,
+"hold": 22.971
+},
+{
+"start": 22.971,
+"end": 23.671,
+"text": "dua belas kilo.",
+"machine": false,
+"hold": 24.271
+},
+{
+"start": 24.725,
+"end": 25.734,
+"text": "Dia menekan tombol batal.",
+"machine": false,
+"hold": 26.334
+},
+{
+"start": 26.482,
+"end": 27.249,
+"text": "Angkanya malah naik.",
+"machine": false,
+"hold": 27.849
+},
+{
+"start": 28.198,
+"end": 28.898,
+"text": "Tiga puluh.",
+"machine": false,
+"hold": 29.416
+},
+{
+"start": 29.416,
+"end": 30.116,
+"text": "Lima puluh.",
+"machine": false,
+"hold": 30.716
+},
+{
+"start": 30.85,
+"end": 32.892,
+"text": "Silakan lanjutkan belanja Anda.",
+"machine": true,
+"hold": 33.492
+},
+{
+"start": 33.65,
+"end": 35.36,
+"text": "Bayu melirik monitor CCTV",
+"machine": false,
+"hold": 35.36
+},
+{
+"start": 35.36,
+"end": 36.318,
+"text": "di meja kasir.",
+"machine": false,
+"hold": 36.918
+},
+{
+"start": 36.971,
+"end": 37.671,
+"text": "Di layar,",
+"machine": false,
+"hold": 37.819
+},
+{
+"start": 37.819,
+"end": 39.559,
+"text": "ada antrean di depan mesin itu.",
+"machine": false,
+"hold": 40.112
+},
+{
+"start": 40.112,
+"end": 40.812,
+"text": "Empat orang.",
+"machine": false,
+"hold": 41.412
+},
+{
+"start": 41.605,
+"end": 42.305,
+"text": "Dia menoleh.",
+"machine": false,
+"hold": 42.841
+},
+{
+"start": 42.841,
+"end": 43.565,
+"text": "Di depan mesin,",
+"machine": false,
+"hold": 43.756
+},
+{
+"start": 43.756,
+"end": 44.981,
+"text": "tidak ada siapa-siapa.",
+"machine": false,
+"hold": 45.581
+},
+{
+"start": 45.85,
+"end": 46.994,
+"text": "Pelanggan berikutnya.",
+"machine": true,
+"hold": 47.594
+},
+{
+"start": 47.85,
+"end": 48.826,
+"text": "Di CCTV,",
+"machine": false,
+"hold": 49.092
+},
+{
+"start": 49.092,
+"end": 51.136,
+"text": "orang pertama melangkah ke mesin,",
+"machine": false,
+"hold": 51.136
+},
+{
+"start": 51.136,
+"end": 51.88,
+"text": "lalu hilang.",
+"machine": false,
+"hold": 52.422
+},
+{
+"start": 52.422,
+"end": 53.343,
+"text": "Lalu orang kedua.",
+"machine": false,
+"hold": 53.924
+},
+{
+"start": 53.924,
+"end": 55.12,
+"text": "Lalu orang ketiga.",
+"machine": false,
+"hold": 55.72
+},
+{
+"start": 55.933,
+"end": 56.663,
+"text": "Tinggal satu.",
+"machine": false,
+"hold": 57.263
+},
+{
+"start": 57.326,
+"end": 58.365,
+"text": "Dia memakai seragam",
+"machine": false,
+"hold": 58.365
+},
+{
+"start": 58.365,
+"end": 59.568,
+"text": "yang sama dengan Bayu.",
+"machine": false,
+"hold": 60.168
+},
+{
+"start": 60.504,
+"end": 62.016,
+"text": "Bayu mundur menjauh dari mesin.",
+"machine": false,
+"hold": 62.333
+},
+{
+"start": 62.333,
+"end": 63.685,
+"text": "Tapi waktu dia menunduk,",
+"machine": false,
+"hold": 64.237
+},
+{
+"start": 64.237,
+"end": 66.239,
+"text": "kakinya sudah berdiri di atas timbangan.",
+"machine": false,
+"hold": 66.839
+},
+{
+"start": 66.926,
+"end": 67.944,
+"text": "Layar menunjukkan",
+"machine": false,
+"hold": 67.944
+},
+{
+"start": 67.944,
+"end": 69.381,
+"text": "enam puluh delapan kilo.",
+"machine": false,
+"hold": 69.981
+},
+{
+"start": 69.982,
+"end": 71.164,
+"text": "Persis berat badannya.",
+"machine": false,
+"hold": 71.764
+},
+{
+"start": 71.767,
+"end": 72.988,
+"text": "Struk keluar pelan-pelan.",
+"machine": false,
+"hold": 73.359
+},
+{
+"start": 73.359,
+"end": 74.059,
+"text": "Satu barang.",
+"machine": false,
+"hold": 74.581
+},
+{
+"start": 74.581,
+"end": 75.316,
+"text": "Penjaga malam.",
+"machine": false,
+"hold": 75.916
+},
+{
+"start": 76.038,
+"end": 76.738,
+"text": "Lunas.",
+"machine": false,
+"hold": 77.338
+},
+{
+"start": 78.0,
+"end": 78.839,
+"text": "Terima kasih.",
+"machine": true,
+"hold": 79.204
+},
+{
+"start": 79.204,
+"end": 80.552,
+"text": "Jangan lupa barang Anda.",
+"machine": true,
+"hold": 82.052
+}
+]

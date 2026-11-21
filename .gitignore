@@ -19,3 +19,6 @@ projects/absen/three/out/*.wav
 projects/absen/three/out/video-*.mp4
 projects/absen/three/out/render.log
 projects/absen/three/sfx/*.wav
+projects/*/three/out/stills/
+projects/*/three/out/sheet*.png
+projects/*/audio/*.raw
