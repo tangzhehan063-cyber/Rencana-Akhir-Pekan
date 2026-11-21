@@ -24,3 +24,5 @@ projects/*/three/out/sheet*.png
 projects/*/audio/*.raw
 projects/*/three/out/stills*/
 projects/*/three/out/aa/
+projects/*/three/out/render-*.log
+projects/*/three/out/mix-*.wav
