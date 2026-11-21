@@ -128,8 +128,8 @@ function makeStick() {
 }
 function walkPose(ph, amt = 1) {
   const s = Math.sin(ph), c = Math.cos(ph);
-  return {ll: [0.42 * s * amt, 0.03], lk: Math.max(0, -c) * 0.7 * amt + 0.05, rl: [-0.42 * s * amt, 0.03], rk: Math.max(0, c) * 0.7 * amt + 0.05,
-    la: [-0.35 * s * amt, 0.1], ra: [0.35 * s * amt, 0.1], le: 0.3, re: 0.3, hipY: -0.025 * Math.abs(Math.cos(ph)) * amt};
+  return {ll: [0.42 * s * amt, lerp(0.02, 0.03, amt)], lk: (Math.max(0, -c) * 0.7 + 0.05) * amt, rl: [-0.42 * s * amt, lerp(0.02, 0.03, amt)], rk: (Math.max(0, c) * 0.7 + 0.05) * amt,
+    la: [lerp(0.05, -0.35 * s, amt), 0.1], ra: [lerp(0.05, 0.35 * s, amt), 0.1], le: lerp(0.15, 0.3, amt), re: lerp(0.15, 0.3, amt), hipY: -0.025 * Math.abs(Math.cos(ph)) * amt};
 }
 
 // ---------- TEXTURES ----------
@@ -557,25 +557,39 @@ let _bc = -1; function drawBoardCircleIf(k) { k = Math.round(k * 40) / 40; if (k
 function stairPos(k, floorOff = 0) { // k 0..1 along flight A (0 top) ; returns pos in STW local + world
   return V(-40 + 0.6, -0.16 * 10 * k + 0.02 + floorOff, -0.1 - 2.6 * k); }
 function stairPosC(k, floorOff = 0) { return V(-40 + 2.0, -1.6 - 1.6 * k + 0.02 + floorOff, -2.6 + 2.6 * k); }
+// Drive the cycle from distance, and ease into a planted pose at each landing.
+function stairGait(progress, distance, cycle, strength = 1) {
+  const blend = ease(progress / 0.08) * ease((1 - progress) / 0.08);
+  return cycle(progress * distance * Math.PI / 0.62, strength * blend);
+}
+const FLIGHT_LENGTH = Math.hypot(2.6, 1.6);
 function rudiAt(p, yaw) { rudi.root.position.copy(p); rudi.root.rotation.y = yaw; }
-const runPose = ph => { const w = walkPose(ph, 1.35); w.lean = 0.25; w.le = 1.1; w.re = 1.1; return w; };
+function runPose(phase, strength = 1) {
+  return {
+    ...walkPose(phase, 1.35 * strength),
+    lean: 0.25 * strength,
+    le: lerp(0.15, 1.1, strength),
+    re: lerp(0.15, 1.1, strength),
+  };
+}
 const st = (t, t0, rate = 8) => (t - t0) * rate;
 
 shots.push(
   {name: 'stairs-down-1', t0: 27.4, t1: 30.6, f(t) {
-    const k = seg(t, 27.9, 30.3); rudiAt(stairPos(k), Math.PI);
-    rudi.pose({...walkPose(st(t, 27.9), 0.8), head: [0, -0.25], eyes: 1.1, brow: 0.3});
-    cam(V(-38.1, 2.6, 1.2), V(-39.4, -0.6, -1.4), 50);
+    const k = seg(t, 27.9, 30.3);
+    const position = stairPos(lerp(0.17, 1, k)); rudiAt(position, Math.PI);
+    rudi.pose({...stairGait(k, 0.83 * FLIGHT_LENGTH, walkPose, 0.8), head: [0, -0.25], eyes: 1.1, brow: 0.3});
+    cam(position.clone().add(V(0.34, 1.2, -1.57)), position.clone().add(V(0, 0.9, 0)), 65);
   }},
   {name: 'door-4-a', t0: 30.6, t1: 32.7, f(t) {
     const k = seg(t, 30.6, 31.7); rudiAt(stairPosC(k), 0);
-    const stop = t > 31.7; rudi.pose(stop ? {head: [-0.5, 0.05], eyes: 1.2, brow: 0.4} : walkPose(st(t, 30.6), 0.8));
+    const stop = t > 31.7; rudi.pose(stop ? {head: [-0.5, 0.05], eyes: 1.2, brow: 0.4} : stairGait(k, FLIGHT_LENGTH, walkPose, 0.8));
     const push = seg(t, 31.9, 32.7);
     cam(V(-38.9, -1.7, -1.6).lerp(V(-38.6, -1.85, -0.2), push), V(-38.25, -1.9, 1.6), lerp(48, 40, push));
   }},
   {name: 'stairs-down-2', t0: 32.7, t1: 33.9, f(t) {
     const k = seg(t, 32.7, 33.85); rudiAt(stairPos(k, 0), Math.PI);
-    rudi.pose({...runPose(st(t, 32.7, 11)), head: [0, -0.2], eyes: 1.2, brow: 0.5});
+    rudi.pose({...stairGait(k, FLIGHT_LENGTH, runPose), head: [0, -0.2], eyes: 1.2, brow: 0.5});
     cam(V(-39.6, -0.15, -4.1), V(-39.4, 0.5, -0.6), 54);
   }},
   {name: 'door-4-b', t0: 33.9, t1: 35.0, f(t) {
@@ -584,7 +598,7 @@ shots.push(
   }},
   {name: 'stairs-run-3', t0: 35.0, t1: 36.2, f(t) {
     const k = seg(t, 35.0, 36.15); rudiAt(stairPosC(k), 0);
-    rudi.pose({...runPose(st(t, 35.0, 12)), head: [0, -0.15], eyes: 1.3, brow: 0.6});
+    rudi.pose({...stairGait(k, FLIGHT_LENGTH, runPose), head: [0, -0.15], eyes: 1.3, brow: 0.6});
     cam(V(-37.0, -0.9, -3.8), V(-38.0, -2.4, -0.5), 54);
   }},
   {name: 'still-4', t0: 36.2, t1: 37.4, f(t) {
