@@ -21,7 +21,7 @@ monScreen.material = new THREE.ShaderMaterial({uniforms: {map: {value: cctvRT.te
   fragmentShader: `uniform sampler2D map; uniform float uTime, uOn; varying vec2 vUv;
     float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
     void main(){ vec3 c = texture2D(map, vUv).rgb; float l = dot(c, vec3(.3,.59,.11)); l = (l-.5)*1.3+.55; l *= .85+.15*sin(vUv.y*480.0);
-      l += (h(vUv*vec2(320.,240.)+floor(uTime*24.))-.5)*.12; gl_FragColor = vec4(vec3(l*.9,l*1.05,l*.92)*uOn, 1.0); }`});
+      l += (h(vUv*vec2(320.,240.)+floor(uTime*12.))-.5)*.05; gl_FragColor = vec4(vec3(l*.9,l*1.05,l*.92)*uOn, 1.0); }`});
 // what the CCTV sees can differ from reality: ghosts are visible only to cctvCam (layer 1)
 for (const gh of ghosts) gh.root.traverse(o => o.layers.set(1));
 cctvCam.layers.enable(0); cctvCam.layers.enable(1);

@@ -9,11 +9,11 @@ function tileTex() {
     g.fillStyle = '#d9d6cf'; g.fillRect(0, 0, w, h);
     for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { const v = 205 + Math.floor(hash(i * 7 + j * 13) * 18); g.fillStyle = `rgb(${v},${v - 2},${v - 8})`; g.fillRect(i * 128 + 2, j * 128 + 2, 124, 124); }
     for (let k = 0; k < 500; k++) { g.fillStyle = `rgba(60,55,45,${0.03 + hash(k) * 0.05})`; g.fillRect(hash(k * 3.3) * w, hash(k * 5.1) * h, 3, 3); }
-    g.fillStyle = 'rgba(70,64,55,.55)'; for (let i = 0; i <= 4; i++) { g.fillRect(i * 128 - 2, 0, 4, h); g.fillRect(0, i * 128 - 2, w, 4); }
+    g.fillStyle = 'rgba(70,64,55,.22)'; for (let i = 0; i <= 4; i++) { g.fillRect(i * 128 - 3, 0, 6, h); g.fillRect(0, i * 128 - 3, w, 6); }
   });
-  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(8, 10); return t;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(8, 10); t.anisotropy = 16; return t;
 }
-const floorMat = new THREE.MeshStandardMaterial({map: tileTex(), roughness: 0.35, metalness: 0.0});
+const floorMat = new THREE.MeshStandardMaterial({map: tileTex(), roughness: 0.72, metalness: 0.0});
 const floor = new THREE.Mesh(new THREE.PlaneGeometry(X1 - X0, Z1 - Z0), floorMat); floor.rotation.x = -Math.PI / 2; floor.position.set(0, 0, (Z0 + Z1) / 2); floor.receiveShadow = true; STORE.add(floor);
 const wallMat = std(0xcfd3cf, {r: 0.9});
 const ceilMat = std(0xbfc3c0, {r: 0.95});
@@ -122,9 +122,9 @@ const regScreen = box(0.3, 0.2, 0.03, new THREE.MeshStandardMaterial({color: 0x1
 // cigarette/back shelf behind cashier
 box(2.0, 1.4, 0.3, std(0x3b3e43), 0, 1.5, 1.2, COUNTER); for (let i = 0; i < 3; i++) { const f = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.34), new THREE.MeshStandardMaterial({map: productTex(90 + i), roughness: 0.7})); f.rotation.y = Math.PI; f.position.set(0, 1.0 + i * 0.42, 1.04); COUNTER.add(f); }
 // CCTV monitor on the counter (render-target feed assigned in 25-cctv)
-const monBody = box(0.46, 0.34, 0.08, std(0x1a1b1d, {r: 0.5}), -0.55, 1.2, 0.12, COUNTER); monBody.rotation.y = 0.35;
+const monBody = box(0.46, 0.34, 0.08, std(0x1a1b1d, {r: 0.5}), -0.55, 1.2, 0.12, COUNTER); monBody.rotation.y = 0.9;
 box(0.05, 0.2, 0.05, std(0x1a1b1d), -0.55, 1.05, 0.15, COUNTER);
-const monScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.3), new THREE.MeshBasicMaterial({color: 0x222222})); monScreen.position.set(0, 0, -0.041); monScreen.rotation.y = Math.PI; monBody.add(monScreen);
+const monScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.3), new THREE.MeshBasicMaterial({color: 0x222222})); monScreen.position.set(0, 0, 0.041); monBody.add(monScreen);
 
 // ---- digital wall clock (above counter, on left wall) ----
 const clockTex = canvasTex(256, 96, () => {});

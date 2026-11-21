@@ -4,9 +4,9 @@ import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
 import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
 import {ShaderPass} from 'three/addons/postprocessing/ShaderPass.js';
 import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
-const composer = new EffectComposer(renderer); composer.setPixelRatio(1); composer.setSize(W, H);
+const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, {samples: 8, type: THREE.HalfFloatType})); composer.setPixelRatio(1); composer.setSize(W, H);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.26, 0.45, 0.93); composer.addPass(bloom);
+const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.18, 0.4, 0.97); composer.addPass(bloom);
 const lookPass = new ShaderPass({uniforms: {tDiffuse: {value: null}, uCA: {value: 1}, uVig: {value: 1}, uCCTV: {value: 0}, uTime: {value: 0}},
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
   fragmentShader: `uniform sampler2D tDiffuse; uniform float uCA, uVig, uCCTV, uTime; varying vec2 vUv;
@@ -14,7 +14,7 @@ const lookPass = new ShaderPass({uniforms: {tDiffuse: {value: null}, uCA: {value
     void main(){ vec2 c = vUv - 0.5; float r2 = dot(c,c); vec2 off = c * r2 * 0.012 * uCA;
       vec3 col = vec3(texture2D(tDiffuse, vUv + off).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - off).b);
       if (uCCTV > 0.5) { float l = dot(col, vec3(0.3,0.59,0.11)); col = vec3(l*0.92, l*1.02, l*0.95); col = (col-0.5)*1.25+0.5;
-        col *= 0.88 + 0.12*sin(vUv.y*1280.0*1.6); col += (h(vUv*vec2(720.0,1280.0) + floor(uTime*30.0)) - 0.5)*0.09; }
+        col *= 0.88 + 0.12*sin(vUv.y*1280.0*1.6); col += (h(vUv*vec2(720.0,1280.0) + floor(uTime*12.0)) - 0.5)*0.04; }
       col *= mix(1.0, (1.0 - smoothstep(0.25, 0.95, length(c*vec2(1.0,0.75)))), 0.55*uVig);
       gl_FragColor = vec4(col, 1.0); }`});
 composer.addPass(lookPass); composer.addPass(new OutputPass());
@@ -46,7 +46,7 @@ window.setup = async () => {
   return shots.map(s => [s.name, s.t0, s.t1]);
 };
 window.renderAt = (t) => {
-  resetAll();
+  resetAll(); resetB();
   const s = shots.find(s => t >= s.t0 && t < s.t1) || shots[shots.length - 1];
   s.f(t);
   scene.updateMatrixWorld(true);

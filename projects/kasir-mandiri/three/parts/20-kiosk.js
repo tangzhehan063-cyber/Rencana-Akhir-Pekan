@@ -22,19 +22,19 @@ const sticker = new THREE.Mesh(new THREE.CircleGeometry(0.075, 24), new THREE.Me
 sticker.position.set(-0.13, 0.62, 0.232); sticker.rotation.z = 0.2; KIOSK.add(sticker);
 // receipt slot + paper
 box(0.16, 0.03, 0.03, std(0x111111), 0.13, 1.06, 0.15, KIOSK, false);
-const receiptTex = canvasTex(160, 400, () => {});
+const receiptTex = canvasTex(320, 800, () => {}); receiptTex.userData.dynamic = true;
 const receipt = new THREE.Mesh(new THREE.PlaneGeometry(0.11, 0.275), new THREE.MeshStandardMaterial({map: receiptTex, roughness: 0.8, side: THREE.DoubleSide}));
 const receiptPivot = new THREE.Group(); receiptPivot.position.set(0.13, 1.07, 0.16); KIOSK.add(receiptPivot); receiptPivot.add(receipt); receipt.visible = false;
 function setReceipt(k) { // k 0..1 = how far it has printed out
   receipt.visible = k > 0.01; const L = 0.275 * k; receipt.scale.y = Math.max(0.001, k); receipt.position.set(0, L / 2, 0.005); receipt.rotation.x = -0.15 - 0.25 * k;
   receipt.material.map.offset.y = 1 - k; receipt.material.map.repeat.y = k; }
 receiptTex.wrapT = THREE.ClampToEdgeWrapping;
-function drawReceipt() { const g = receiptTex.userData.g, w = 160, h = 400; g.fillStyle = '#f4f1e8'; g.fillRect(0, 0, w, h);
+function drawReceipt() { const g = receiptTex.userData.g, w = 160, h = 400; g.setTransform(2, 0, 0, 2, 0, 0); g.fillStyle = '#f4f1e8'; g.fillRect(0, 0, w, h);
   g.fillStyle = '#222'; g.textAlign = 'center'; g.font = '700 15px "Courier New"'; g.fillText('MINIMARKET 24 JAM', w / 2, 30); g.font = '12px "Courier New"'; g.fillText('KASIR MANDIRI #01', w / 2, 48); g.fillText('03:07', w / 2, 64);
   g.fillText('- - - - - - - - - -', w / 2, 86); g.textAlign = 'left'; g.font = '700 14px "Courier New"'; g.fillText('1 x PENJAGA', 12, 118); g.fillText('    MALAM', 12, 136);
   g.textAlign = 'right'; g.fillText('68,0 kg', w - 10, 160); g.textAlign = 'center'; g.font = '12px "Courier New"'; g.fillText('- - - - - - - - - -', w / 2, 186);
   g.font = '900 30px "Courier New"'; g.fillText('LUNAS', w / 2, 232); g.font = '12px "Courier New"'; g.fillText('TERIMA KASIH', w / 2, 270); g.fillText('JANGAN LUPA', w / 2, 300); g.fillText('BARANG ANDA', w / 2, 316);
-  for (let i = 0; i < 36; i++) g.fillRect(24 + i * 3.2, 340, hash(i) > 0.4 ? 2 : 1, 34); receiptTex.needsUpdate = true; }
+  for (let i = 0; i < 36; i++) g.fillRect(24 + i * 3.2, 340, hash(i) > 0.4 ? 2 : 1, 34); g.setTransform(1, 0, 0, 1, 0, 0); receiptTex.needsUpdate = true; }
 // bagging area (customer's right) with scale plate, bag rack and LED weight display
 const BAG = new THREE.Group(); BAG.position.set(0.58, 0, 0); KIOSK.add(BAG);
 box(0.56, 0.74, 0.46, kWhite, 0, 0.37, 0, BAG); box(0.56, 0.05, 0.46, kRed, 0, 0.72, 0, BAG, false);
@@ -64,8 +64,8 @@ function drawScreen(state, p = {}) {
       g.strokeStyle = '#b3262a'; g.lineWidth = 6; g.strokeRect(196, 270, 120, 70); g.fillStyle = '#b3262a'; g.font = '900 54px Nunito'; g.fillText('!', w / 2, 325); }
     else { g.fillStyle = '#555'; g.font = '800 24px Nunito'; g.fillText('BERAT DI AREA KEMASAN', w / 2, 162);
       g.fillStyle = '#b3262a'; g.font = '900 96px Nunito'; g.fillText(p.kg.toFixed(1).replace('.', ',') + ' kg', w / 2, 262);
-      g.fillStyle = p.press ? '#7a1a1c' : '#b3262a'; g.fillRect(40, 300, 200, 60); g.fillStyle = '#d9d6cf'; g.fillRect(272, 300, 200, 60);
-      g.fillStyle = '#fff'; g.font = '900 28px Nunito'; g.fillText('BATAL', 140, 340); g.fillStyle = '#333'; g.fillText('BANTUAN', 372, 340); }
+      g.fillStyle = p.press ? '#7a1a1c' : '#b3262a'; g.fillRect(272, 300, 200, 60); g.fillStyle = '#d9d6cf'; g.fillRect(40, 300, 200, 60);
+      g.fillStyle = '#fff'; g.font = '900 28px Nunito'; g.fillText('BATAL', 372, 340); g.fillStyle = '#333'; g.fillText('BANTUAN', 140, 340); }
   }
   if (state === 'continue') { wrap('Silakan lanjutkan belanja Anda.', 170, 44, '#222'); g.fillStyle = '#3a9b4a'; g.font = '900 64px Nunito'; g.fillText('✓', w / 2, 320); }
   if (state === 'next') { wrap('Pelanggan berikutnya', 160, 46, '#222'); g.fillStyle = '#555'; g.font = '800 26px Nunito'; g.fillText(`Antrean: ${p.n ?? 0}`, w / 2, 290); }
@@ -74,3 +74,11 @@ function drawScreen(state, p = {}) {
   screenTex.needsUpdate = true;
 }
 function kioskLamp(v) { lampMat.emissiveIntensity = 3 * v; lampLight.intensity = 3.5 * v; }
+
+// ---- ending prop: plastic shopping bag on the scale with Bayu's red vest sticking out ----
+const bagProp = new THREE.Group(); bagProp.position.set(0, 0.785, 0); BAG.add(bagProp); bagProp.visible = false;
+{ const pm = new THREE.MeshStandardMaterial({color: 0xf1f0ea, roughness: 0.55, transparent: true, opacity: 0.93});
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.17, 0.32, 18), pm); body.scale.set(1.25, 1, 0.8); body.position.y = 0.16; body.castShadow = true; bagProp.add(body);
+  for (const x of [-0.1, 0.1]) { const h = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.012, 6, 14, Math.PI), pm); h.position.set(x, 0.32, 0); bagProp.add(h); }
+  const vest = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.16, 0.06), new THREE.MeshToonMaterial({color: 0xb3262a, gradientMap: toonRamp})); vest.position.set(0.02, 0.33, 0.01); vest.rotation.set(0.3, 0.4, 0.5); bagProp.add(vest);
+  const tag = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.022, 0.006), new THREE.MeshToonMaterial({color: 0xf2efe6, gradientMap: toonRamp})); tag.position.set(0.04, 0.36, -0.03); tag.rotation.copy(vest.rotation); bagProp.add(tag); }

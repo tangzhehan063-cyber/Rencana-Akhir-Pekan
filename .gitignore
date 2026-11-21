@@ -22,3 +22,5 @@ projects/absen/three/sfx/*.wav
 projects/*/three/out/stills/
 projects/*/three/out/sheet*.png
 projects/*/audio/*.raw
+projects/*/three/out/stills*/
+projects/*/three/out/aa/
