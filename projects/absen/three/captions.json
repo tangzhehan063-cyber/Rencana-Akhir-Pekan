@@ -1,0 +1,268 @@
+[
+{
+"start": 0.0,
+"end": 3.852,
+"text": "Sejak malam itu, Rudi tidak pernah pulang.",
+"machine": false,
+"hold": 3.852
+},
+{
+"start": 3.852,
+"end": 5.55,
+"text": "Tapi setiap pagi,",
+"machine": false,
+"hold": 5.55
+},
+{
+"start": 5.55,
+"end": 6.953,
+"text": "tepat jam tujuh,",
+"machine": false,
+"hold": 6.953
+},
+{
+"start": 6.953,
+"end": 10.194,
+"text": "mesin absen di lobi berbunyi:",
+"machine": false,
+"hold": 10.794
+},
+{
+"start": 10.794,
+"end": 11.937,
+"text": "Terima kasih, Rudi.",
+"machine": true,
+"hold": 12.536999999999999
+},
+{
+"start": 12.687,
+"end": 14.85,
+"text": "Pak Darto, satpam gedung itu,",
+"machine": false,
+"hold": 14.85
+},
+{
+"start": 14.85,
+"end": 16.305,
+"text": "sudah tiga kali memeriksa.",
+"machine": false,
+"hold": 16.305
+},
+{
+"start": 16.305,
+"end": 20.355,
+"text": "Tidak pernah ada siapa pun di depan mesin.",
+"machine": false,
+"hold": 20.355
+},
+{
+"start": 20.355,
+"end": 21.205,
+"text": "Pagi keempat,",
+"machine": false,
+"hold": 21.205
+},
+{
+"start": 21.205,
+"end": 23.667,
+"text": "dia menunggu di lobi sambil memegang senter.",
+"machine": false,
+"hold": 23.667
+},
+{
+"start": 23.667,
+"end": 25.902,
+"text": "Jam tujuh kurang satu menit,",
+"machine": false,
+"hold": 25.902
+},
+{
+"start": 25.902,
+"end": 27.944,
+"text": "lift di belakangnya berdenting.",
+"machine": false,
+"hold": 27.944
+},
+{
+"start": 27.944,
+"end": 29.478,
+"text": "Pintunya terbuka.",
+"machine": false,
+"hold": 29.478
+},
+{
+"start": 29.478,
+"end": 30.673,
+"text": "Kosong.",
+"machine": false,
+"hold": 30.673
+},
+{
+"start": 30.673,
+"end": 32.829,
+"text": "Lalu mesin absen menyala sendiri.",
+"machine": false,
+"hold": 33.429
+},
+{
+"start": 33.48,
+"end": 34.623,
+"text": "Terima kasih, Rudi.",
+"machine": true,
+"hold": 35.223
+},
+{
+"start": 35.523,
+"end": 36.858,
+"text": "Di layar CCTV,",
+"machine": false,
+"hold": 36.858
+},
+{
+"start": 36.858,
+"end": 39.749,
+"text": "lift itu naik lagi dan berhenti di lantai empat.",
+"machine": false,
+"hold": 39.749
+},
+{
+"start": 39.749,
+"end": 42.293,
+"text": "Pak Darto menyusul lewat tangga darurat.",
+"machine": false,
+"hold": 42.293
+},
+{
+"start": 42.293,
+"end": 46.524,
+"text": "Pintu lantai empat sudah terbuka sedikit,",
+"machine": false,
+"hold": 46.524
+},
+{
+"start": 46.524,
+"end": 47.798,
+"text": "seperti sedang menunggunya.",
+"machine": false,
+"hold": 47.798
+},
+{
+"start": 47.798,
+"end": 50.038,
+"text": "Lampu kerja masih menyala di ujung lorong.",
+"machine": false,
+"hold": 50.038
+},
+{
+"start": 50.038,
+"end": 53.926,
+"text": "Dinding bata yang kemarin setengah jadi,",
+"machine": false,
+"hold": 53.926
+},
+{
+"start": 53.926,
+"end": 55.719,
+"text": "sekarang sudah tertutup rapat.",
+"machine": false,
+"hold": 55.719
+},
+{
+"start": 55.719,
+"end": 56.867,
+"text": "Semennya sudah kering.",
+"machine": false,
+"hold": 56.867
+},
+{
+"start": 56.867,
+"end": 58.34,
+"text": "Di depannya,",
+"machine": false,
+"hold": 58.34
+},
+{
+"start": 58.34,
+"end": 61.109,
+"text": "papan jadwal tukang punya tulisan baru:",
+"machine": false,
+"hold": 61.109
+},
+{
+"start": 61.109,
+"end": 63.29,
+"text": "\"Besok, jam tujuh pagi.",
+"machine": false,
+"hold": 63.29
+},
+{
+"start": 63.29,
+"end": 64.14,
+"text": "Tutup dinding.",
+"machine": false,
+"hold": 64.14
+},
+{
+"start": 64.14,
+"end": 64.99,
+"text": "Satpam.\"",
+"machine": false,
+"hold": 64.99
+},
+{
+"start": 64.99,
+"end": 67.98,
+"text": "Dari balik dinding terdengar ketukan pelan.",
+"machine": false,
+"hold": 67.98
+},
+{
+"start": 67.98,
+"end": 68.83,
+"text": "Tiga kali.",
+"machine": false,
+"hold": 68.83
+},
+{
+"start": 68.83,
+"end": 69.759,
+"text": "Pak Darto mundur.",
+"machine": false,
+"hold": 69.759
+},
+{
+"start": 69.759,
+"end": 71.141,
+"text": "Ponselnya bergetar.",
+"machine": false,
+"hold": 71.141
+},
+{
+"start": 71.141,
+"end": 73.43,
+"text": "Notifikasi dari mesin absen di lobi:",
+"machine": false,
+"hold": 73.98
+},
+{
+"start": 73.98,
+"end": 75.436,
+"text": "Absen pulang berhasil.",
+"machine": true,
+"hold": 75.436
+},
+{
+"start": 75.436,
+"end": 76.684,
+"text": "Terima kasih, Darto.",
+"machine": true,
+"hold": 77.28399999999999
+},
+{
+"start": 77.584,
+"end": 79.937,
+"text": "Padahal dia masih berdiri di lantai empat.",
+"machine": false,
+"hold": 81.437
+}
+]

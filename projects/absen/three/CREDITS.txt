@@ -1,0 +1,8 @@
+Music: "Classic Horror 1" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+Changes: looped excerpt, volume lowered, fades, ducked under narration.
+
+Sound effects (CC0): Kenney (Impact, Interface, RPG Audio), OwlishMedia "202 More Sound Effects", LEGIT Audio "The Shop".
+Synthesized beep/hiss/buzz/notification/ding/drone/door: generated with FFmpeg for this project.
+Narration: Google Gemini TTS — voice Charon (narrator), Kore (attendance machine).

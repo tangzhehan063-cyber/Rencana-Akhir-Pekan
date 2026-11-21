@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "style": "B4",
+  "width": 720,
+  "height": 1280,
+  "fps": 30,
+  "voice": {
+    "path": "narration.wav",
+    "lead": 0,
+    "tail": 0,
+    "name": "Brian",
+    "id": "nPczCjzI2devNBz1zQrb"
+  },
+  "captions": [],
+  "shots": [],
+  "sfx": [],
+  "ambience": [],
+  "dialogue": [],
+  "audio_cuts": [],
+  "picture_motion": {
+    "author_id": "",
+    "shots": []
+  },
+  "opening": {
+    "version": 1,
+    "preset": "b4-portrait-poster-v1",
+    "shadow": "",
+    "setup": "",
+    "payoff": "",
+    "picture": {
+      "before": "",
+      "after": "",
+      "meaning": "",
+      "region": {}
+    }
+  }
+}
