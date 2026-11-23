@@ -27,3 +27,5 @@ projects/*/three/out/aa/
 projects/*/three/out/render-*.log
 projects/*/three/out/mix-*.wav
 projects/*/three/out/concat.txt
+# videos go to Google Drive, not git (from 2026-11-23)
+projects/**/*.mp4
