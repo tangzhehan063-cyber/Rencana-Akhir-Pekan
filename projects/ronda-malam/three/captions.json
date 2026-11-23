@@ -1,0 +1,366 @@
+[
+{
+"start": 1.7,
+"end": 2.4,
+"text": "Malam itu,",
+"voice": "narr",
+"hold": 2.84
+},
+{
+"start": 2.84,
+"end": 4.638,
+"text": "Dimas pertama kali ikut ronda.",
+"voice": "narr",
+"hold": 5.238
+},
+{
+"start": 5.53,
+"end": 6.373,
+"text": "Di dinding pos,",
+"voice": "narr",
+"hold": 6.769
+},
+{
+"start": 6.769,
+"end": 9.813,
+"text": "ada selebaran berisi peraturan ronda RT 04.",
+"voice": "narr",
+"hold": 10.413
+},
+{
+"start": 10.69,
+"end": 11.531,
+"text": "Aturan pertama.",
+"voice": "narr",
+"hold": 12.109
+},
+{
+"start": 12.109,
+"end": 13.281,
+"text": "Ronda harus berempat.",
+"voice": "narr",
+"hold": 13.859
+},
+{
+"start": 13.859,
+"end": 15.326,
+"text": "Jangan pernah berjalan sendirian.",
+"voice": "narr",
+"hold": 15.926
+},
+{
+"start": 16.367,
+"end": 17.137,
+"text": "Aturan kedua.",
+"voice": "narr",
+"hold": 17.737
+},
+{
+"start": 17.804,
+"end": 19.49,
+"text": "Kentongan dua kali berarti aman.",
+"voice": "narr",
+"hold": 20.09
+},
+{
+"start": 20.117,
+"end": 21.233,
+"text": "Kalau berbunyi tiga kali,",
+"voice": "narr",
+"hold": 21.511
+},
+{
+"start": 21.511,
+"end": 23.628,
+"text": "segera masuk pos dan matikan senter.",
+"voice": "narr",
+"hold": 24.228
+},
+{
+"start": 24.761,
+"end": 25.508,
+"text": "Aturan ketiga.",
+"voice": "narr",
+"hold": 26.108
+},
+{
+"start": 26.266,
+"end": 27.592,
+"text": "Tepat pukul satu malam,",
+"voice": "narr",
+"hold": 28.192
+},
+{
+"start": 28.212,
+"end": 29.4,
+"text": "hitung jumlah peronda.",
+"voice": "narr",
+"hold": 30.0
+},
+{
+"start": 30.3,
+"end": 32.483,
+"text": "Malam itu, Dimas berkeliling",
+"voice": "narr",
+"hold": 32.483
+},
+{
+"start": 32.483,
+"end": 35.367,
+"text": "bersama Pak Harjo, Udin, dan Bambang.",
+"voice": "narr",
+"hold": 35.967
+},
+{
+"start": 36.042,
+"end": 36.742,
+"text": "Empat orang.",
+"voice": "narr",
+"hold": 37.282
+},
+{
+"start": 37.282,
+"end": 38.058,
+"text": "Sesuai aturan.",
+"voice": "narr",
+"hold": 38.658
+},
+{
+"start": 39.273,
+"end": 40.372,
+"text": "Tepat pukul satu,",
+"voice": "narr",
+"hold": 40.906
+},
+{
+"start": 40.906,
+"end": 42.156,
+"text": "mereka berhenti di ujung gang.",
+"voice": "narr",
+"hold": 42.756
+},
+{
+"start": 43.19,
+"end": 44.803,
+"text": "Pak Harjo mulai menghitung.",
+"voice": "narr",
+"hold": 45.403
+},
+{
+"start": 45.5,
+"end": 46.306,
+"text": "\"Satu...",
+"voice": "harjo",
+"hold": 46.906
+},
+{
+"start": 47.027,
+"end": 47.727,
+"text": "dua...",
+"voice": "harjo",
+"hold": 48.327
+},
+{
+"start": 48.339,
+"end": 49.09,
+"text": "tiga...",
+"voice": "harjo",
+"hold": 49.69
+},
+{
+"start": 49.902,
+"end": 50.602,
+"text": "empat.\"",
+"voice": "harjo",
+"hold": 51.2
+},
+{
+"start": 51.2,
+"end": 53.464,
+"text": "Lalu terdengar suara dari belakang mereka.",
+"voice": "narr",
+"hold": 54.045
+},
+{
+"start": 54.045,
+"end": 54.856,
+"text": "Berbisik.",
+"voice": "narr",
+"hold": 55.456
+},
+{
+"start": 55.95,
+"end": 56.654,
+"text": "\"Lima.\"",
+"voice": "whisper",
+"hold": 57.254
+},
+{
+"start": 58.32,
+"end": 59.721,
+"text": "Tidak ada yang berani menoleh.",
+"voice": "narr",
+"hold": 60.321
+},
+{
+"start": 61.396,
+"end": 62.096,
+"text": "Tiba-tiba,",
+"voice": "narr",
+"hold": 62.254
+},
+{
+"start": 62.254,
+"end": 63.66,
+"text": "dari pos ronda yang kosong,",
+"voice": "narr",
+"hold": 64.023
+},
+{
+"start": 64.023,
+"end": 65.668,
+"text": "kentongan berbunyi tiga kali.",
+"voice": "narr",
+"hold": 66.268
+},
+{
+"start": 68.57,
+"end": 69.592,
+"text": "Mereka langsung berlari masuk.",
+"voice": "narr",
+"hold": 70.192
+},
+{
+"start": 70.198,
+"end": 70.898,
+"text": "Mengunci pintu.",
+"voice": "narr",
+"hold": 71.272
+},
+{
+"start": 71.272,
+"end": 72.522,
+"text": "Mematikan semua senter.",
+"voice": "narr",
+"hold": 73.122
+},
+{
+"start": 73.245,
+"end": 73.945,
+"text": "Dalam gelap,",
+"voice": "narr",
+"hold": 74.109
+},
+{
+"start": 74.109,
+"end": 75.112,
+"text": "Dimas meraba dinding",
+"voice": "narr",
+"hold": 75.112
+},
+{
+"start": 75.112,
+"end": 77.069,
+"text": "untuk mencari selebaran peraturan tadi.",
+"voice": "narr",
+"hold": 77.669
+},
+{
+"start": 77.869,
+"end": 79.615,
+"text": "Tapi ada sesuatu yang berubah.",
+"voice": "narr",
+"hold": 80.215
+},
+{
+"start": 80.384,
+"end": 82.04,
+"text": "Sekarang, ada aturan keempat.",
+"voice": "narr",
+"hold": 82.64
+},
+{
+"start": 82.811,
+"end": 83.698,
+"text": "Tulisan tangan.",
+"voice": "narr",
+"hold": 84.298
+},
+{
+"start": 84.42,
+"end": 85.343,
+"text": "Tinta masih basah.",
+"voice": "narr",
+"hold": 85.943
+},
+{
+"start": 86.54,
+"end": 87.292,
+"text": "Aturan keempat.",
+"voice": "narr",
+"hold": 87.892
+},
+{
+"start": 88.031,
+"end": 89.846,
+"text": "Jika jumlah peronda lima orang,",
+"voice": "narr",
+"hold": 90.349
+},
+{
+"start": 90.349,
+"end": 91.622,
+"text": "jangan pernah menghitung ulang.",
+"voice": "narr",
+"hold": 92.222
+},
+{
+"start": 92.386,
+"end": 93.086,
+"text": "Yang kelima akan pulang",
+"voice": "narr",
+"hold": 93.319
+},
+{
+"start": 93.319,
+"end": 95.724,
+"text": "bersama orang terakhir yang masuk pos.",
+"voice": "narr",
+"hold": 96.324
+},
+{
+"start": 96.92,
+"end": 98.393,
+"text": "Dimas menelan ludah.",
+"voice": "narr",
+"hold": 98.993
+},
+{
+"start": 99.2,
+"end": 99.99,
+"text": "Dia baru sadar...",
+"voice": "narr",
+"hold": 100.59
+},
+{
+"start": 100.722,
+"end": 102.46,
+"text": "Dialah orang terakhir yang masuk.",
+"voice": "narr",
+"hold": 103.06
+},
+{
+"start": 103.243,
+"end": 104.789,
+"text": "Dan tepat di belakangnya...",
+"voice": "narr",
+"hold": 105.389
+},
+{
+"start": 105.572,
+"end": 108.306,
+"text": "Ada seseorang yang ikut menutup pintu.",
+"voice": "narr",
+"hold": 109.806
+}
+]

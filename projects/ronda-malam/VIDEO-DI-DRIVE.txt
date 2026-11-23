@@ -1,0 +1,2 @@
+Video output disimpan di Google Drive (tidak di git):
+Folder "Video Horor Stickman" https://drive.google.com/drive/folders/1pc8A4PHFnRbfoYsno6c2DpJN8raDravs
