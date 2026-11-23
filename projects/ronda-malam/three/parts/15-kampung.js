@@ -137,7 +137,7 @@ function drawSheet(rule4 = 0, wet = 1) { // rule4: 0..1 handwritten reveal amoun
     g.save(); g.beginPath(); g.rect(0, 560, 60 + (w - 60) * rule4, 260); g.clip();
     g.fillStyle = '#1a0c08'; g.font = '700 44px Caveat'; g.textAlign = 'left'; g.save(); g.translate(56, 600); g.rotate(-0.03);
     g.fillText('4. Jika jumlahnya 5,', 0, 0); g.fillText('jangan pernah hitung ulang.', 0, 50); g.font = '700 36px Caveat'; g.fillText('Yang kelima pulang bersama', 0, 104); g.fillText('orang terakhir yang masuk pos.', 0, 146); g.restore();
-    if (wet) { g.fillStyle = 'rgba(26,12,8,.85)'; for (let i = 0; i < 9; i++) { const x = 80 + hash(i * 7) * 460, y0 = 600 + hash(i * 3) * 150, L = 20 + hash(i * 5) * 80; g.fillRect(x, y0, 3, L); g.beginPath(); g.arc(x + 1.5, y0 + L, 4, 0, 7); g.fill(); } }
+    if (wet) { g.fillStyle = 'rgba(26,12,8,.85)'; for (let i = 0; i < 9; i++) { const x = 80 + hash(i * 7) * 460, y0 = 600 + hash(i * 3) * 150, L = (20 + hash(i * 5) * 80) * (0.6 + 0.12 * wet); g.fillRect(x, y0, 3, L); g.beginPath(); g.arc(x + 1.5, y0 + L, 4, 0, 7); g.fill(); } }
     g.restore(); }
   sheetTex.needsUpdate = true;
 }

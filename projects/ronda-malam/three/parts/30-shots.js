@@ -17,6 +17,7 @@ function resetAll() {
   malletHand.visible = false; mallet.visible = true; torches(false); doorPivot.rotation.y = 0; KENT.rotation.set(0, 0, 0);
   posLight.intensity = 3.2; posBulbM.emissiveIntensity = 2.2; porchLight.intensity = 4.5; porchBulbM.emissiveIntensity = 2.2; lampPos.L.intensity = 26; lampEnd.L.intensity = 34; lampPos.bulbM.emissiveIntensity = 2; lampEnd.bulbM.emissiveIntensity = 2;
   moon.intensity = 0.35; nightHemi.intensity = 0.22; sheetFocus = -1; drawSheet(0, 1);
+  winShaft.intensity = 0; insideFill.intensity = 0; winShaft.target.position.copy(SHEET).add(V(0, -0.1, 0.1)); bolt.position.z = 0.72; mallet.rotation.z = 0.4; endEl.textContent = 'RONDA MALAM'; KENT.rotation.z = 0;
   scene.background.set(0x05070c); scene.fog.color.set(0x070a10); scene.fog.density = 0.055;
   // default staging: the four men in front of the pos
   dimas.root.position.set(0.55, 0, 3.0); dimas.root.rotation.y = 1.9;
