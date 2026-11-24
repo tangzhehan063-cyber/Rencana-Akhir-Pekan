@@ -19,3 +19,7 @@ projects/absen/three/out/*.wav
 projects/absen/three/out/video-*.mp4
 projects/absen/three/out/render.log
 projects/absen/three/sfx/*.wav
+
+# ORIENTASI render outputs (large; deliver via file transfer, not git)
+projects/orientasi/three/out/
+projects/orientasi/three/node_modules/

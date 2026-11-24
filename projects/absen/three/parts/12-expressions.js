@@ -3,6 +3,7 @@
 //   expr(name, k=1, genre)      -> pose patch; k scales the expression from neutral (0) to full (1, may exceed 1 for exaggeration)
 //   exprMix(a, b, k)            -> blend two names/patches (e.g. calm -> panicked)
 //   acting(track, t, genre)     -> emotional progression: track = [[t0,'deadpan',1],[t1,'suspicious',.6],[t2,'panicked',1]] (smoothstep between keys, holds at ends)
+// NOTE: expr()/acting() emit head/roll/lean/shrug only if the preset defines them; use only(expr(..),'face') to take the face alone.
 // Keys: brow/browL/browR (angle: + inner-up/worried, - inner-down/angry), byL/byR (brow raise), lid/lidL/lidR (upper-lid closure 0..1),
 //       eyes (size), look [x,y], cross (cross-eyed), eyeAsym, pupilS, glint, mouth ('flat'|'o'|'frown'(legacy)|'sad'|'smile'|'open') with mw (width) mc (curve)
 //       my/mx (offset) mtilt (crooked) mo (open height), head [yaw,pitch], roll (tilt), lean, shrug, blink.
@@ -42,6 +43,8 @@ const EXPR = {
 };
 // genre -> amplitude of deviation from neutral (character identity untouched; only intensity changes)
 const GENRE_AMP = {comedy: 1.3, drama: 0.6, horror: 0.9, mystery: 0.75};
+const EXPR_POSTURE = ['head', 'roll', 'lean', 'shrug'];   // body keys: only emitted when a preset actually defines them, so expr() never clobbers a walk/look pose it is composed with
+function trimPosture(o, srcs) { const def = new Set(srcs.flatMap(x => Object.keys(typeof x === 'string' ? EXPR[x] : x))); for (const k of EXPR_POSTURE) if (!def.has(k)) delete o[k]; return o; }
 function exprBase(x) { return typeof x === 'string' ? Object.assign({}, EXPR_NEUTRAL, EXPR[x]) : Object.assign({}, EXPR_NEUTRAL, x); }
 function exprLerp(A, B, k) { const o = {};
   for (const key of Object.keys(EXPR_NEUTRAL)) { const a = A[key], b = B[key];
@@ -50,14 +53,14 @@ function exprLerp(A, B, k) { const o = {};
     else o[key] = k < 0.5 ? a : b; }                 // categorical keys (mouth, blink) switch halfway
   for (const key of ['glint']) { const v = k < 0.5 ? A[key] : B[key]; if (v !== undefined) o[key] = v; }
   return o; }
-function exprMix(a, b, k) { return exprLerp(exprBase(a), exprBase(b), clamp(k)); }
+function exprMix(a, b, k) { return trimPosture(exprLerp(exprBase(a), exprBase(b), clamp(k)), [a, b]); }
 function expr(name, k = 1, genre = null) { const amp = genre ? GENRE_AMP[genre] ?? 1 : 1;
   const o = exprLerp(EXPR_NEUTRAL, exprBase(name), k * amp);
   const full = exprBase(name); o.mouth = k * amp >= 0.35 ? full.mouth : 'flat'; o.blink = full.blink; if (full.glint !== undefined && k * amp > 0.5) o.glint = full.glint;
-  return o; }
+  return trimPosture(o, [name]); }
 function acting(track, t, genre = null) { // track: [[time, nameOrPatch, intensity], ...] sorted by time
   if (t <= track[0][0]) return expr(track[0][1], track[0][2] ?? 1, genre);
   for (let i = 0; i < track.length - 1; i++) { const [t0, a, ka = 1] = track[i], [t1, b, kb = 1] = track[i + 1];
     if (t < t1) { const k = ease((t - t0) / (t1 - t0)); const A = exprLerp(EXPR_NEUTRAL, exprBase(a), ka * (GENRE_AMP[genre] ?? 1)), B = exprLerp(EXPR_NEUTRAL, exprBase(b), kb * (GENRE_AMP[genre] ?? 1));
-      const o = exprLerp(A, B, k); const fa = exprBase(a), fb = exprBase(b); o.mouth = k < 0.5 ? fa.mouth : fb.mouth; o.blink = k < 0.5 ? fa.blink : fb.blink; return o; } }
+      const o = exprLerp(A, B, k); const fa = exprBase(a), fb = exprBase(b); o.mouth = k < 0.5 ? fa.mouth : fb.mouth; o.blink = k < 0.5 ? fa.blink : fb.blink; return trimPosture(o, [a, b]); } }
   const L = track[track.length - 1]; return expr(L[1], L[2] ?? 1, genre); }

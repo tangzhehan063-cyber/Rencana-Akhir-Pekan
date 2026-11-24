@@ -1,0 +1,163 @@
+[
+ {
+  "start": 0.0,
+  "end": 3.6,
+  "text": "Selamat bergabung di PT Lantai Empat Sejahtera!",
+  "machine": false,
+  "hold": 3.85
+ },
+ {
+  "start": 3.9,
+  "end": 6.2,
+  "text": "Hari pertama pasti menyenangkan.",
+  "machine": false,
+  "hold": 6.45
+ },
+ {
+  "start": 6.5,
+  "end": 9.0,
+  "text": "Mari kenali fasilitas kantor kita.",
+  "machine": false,
+  "hold": 9.25
+ },
+ {
+  "start": 9.4,
+  "end": 11.1,
+  "text": "Pertama, mesin absen.",
+  "machine": false,
+  "hold": 11.35
+ },
+ {
+  "start": 11.4,
+  "end": 16.2,
+  "text": "Tempelkan kartu, dengar suara ramah, dan Anda resmi hadir.",
+  "machine": false,
+  "hold": 16.45
+ },
+ {
+  "start": 16.8,
+  "end": 19.6,
+  "text": "Mesin ini tidak pernah salah mencatat.",
+  "machine": false,
+  "hold": 19.85
+ },
+ {
+  "start": 20.4,
+  "end": 21.7,
+  "text": "Kedua, lift.",
+  "machine": false,
+  "hold": 21.95
+ },
+ {
+  "start": 22.0,
+  "end": 25.0,
+  "text": "Cepat, bersih, dan punya lima tombol.",
+  "machine": false,
+  "hold": 25.25
+ },
+ {
+  "start": 25.4,
+  "end": 28.6,
+  "text": "Satu ditutup lakban. Jangan dipikirkan.",
+  "machine": false,
+  "hold": 28.85
+ },
+ {
+  "start": 29.2,
+  "end": 30.9,
+  "text": "Ketiga, lantai empat.",
+  "machine": false,
+  "hold": 31.15
+ },
+ {
+  "start": 31.2,
+  "end": 34.4,
+  "text": "Sedang direnovasi, mohon jangan dimasuki.",
+  "machine": false,
+  "hold": 34.65
+ },
+ {
+  "start": 35.0,
+  "end": 38.4,
+  "text": "Kalau lift berhenti di sana, itu normal.",
+  "machine": false,
+  "hold": 38.65
+ },
+ {
+  "start": 39.2,
+  "end": 42.8,
+  "text": "Rekan-rekan lama kami akan menyambut Anda.",
+  "machine": false,
+  "hold": 43.05
+ },
+ {
+  "start": 43.2,
+  "end": 44.8,
+  "text": "Mereka sangat ramah.",
+  "machine": false,
+  "hold": 45.05
+ },
+ {
+  "start": 45.6,
+  "end": 47.3,
+  "text": "Mereka tidak pernah cuti.",
+  "machine": false,
+  "hold": 47.55
+ },
+ {
+  "start": 47.8,
+  "end": 49.6,
+  "text": "Mereka tidak pernah pulang.",
+  "machine": false,
+  "hold": 49.85
+ },
+ {
+  "start": 50.4,
+  "end": 52.3,
+  "text": "Terakhir, jadwal kerja Anda.",
+  "machine": false,
+  "hold": 52.55
+ },
+ {
+  "start": 52.6,
+  "end": 54.0,
+  "text": "Sudah kami siapkan.",
+  "machine": false,
+  "hold": 54.25
+ },
+ {
+  "start": 54.4,
+  "end": 56.4,
+  "text": "Besok, jam tujuh pagi.",
+  "machine": false,
+  "hold": 56.65
+ },
+ {
+  "start": 57.0,
+  "end": 59.8,
+  "text": "Dindingnya pas ukuran Anda.",
+  "machine": false,
+  "hold": 60.05
+ },
+ {
+  "start": 60.4,
+  "end": 61.8,
+  "text": "Selamat bekerja!",
+  "machine": false,
+  "hold": 62.05
+ },
+ {
+  "start": 62.0,
+  "end": 65.4,
+  "text": "Kami tidak sabar melihat Anda bertahan lama.",
+  "machine": false,
+  "hold": 65.65
+ },
+ {
+  "start": 66.2,
+  "end": 68.2,
+  "text": "Terima kasih, Bimo.",
+  "machine": true,
+  "hold": 68.4
+ }
+]

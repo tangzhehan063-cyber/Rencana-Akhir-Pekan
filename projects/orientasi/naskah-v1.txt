@@ -1,0 +1,47 @@
+ORIENTASI KARYAWAN BARU — LANTAI 4, bagian 3 (komedi gelap)
+Format: 9:16, 720x1280, 30 fps. Narator: suara HR yang ceria, datar, tidak pernah panik. Karakter: Bimo (karyawan baru), Rudi (LANTAI 4), Pak Darto (ABSEN).
+Gagasan: nada video orientasi perusahaan yang riang bertabrakan dengan apa yang terlihat di layar. Narator tidak pernah mengakui ada yang salah.
+
+NARASI (waktu estimasi; akan dikunci ke suara nanti)
+ 1  0.0  Selamat bergabung di PT Lantai Empat Sejahtera!
+ 2  3.9  Hari pertama pasti menyenangkan.
+ 3  6.5  Mari kenali fasilitas kantor kita.
+ 4  9.4  Pertama, mesin absen.
+ 5 11.4  Tempelkan kartu, dengar suara ramah, dan Anda resmi hadir.
+ 6 16.8  Mesin ini tidak pernah salah mencatat.
+ 7 20.4  Kedua, lift.
+ 8 22.0  Cepat, bersih, dan punya lima tombol.
+ 9 25.4  Satu ditutup lakban. Jangan dipikirkan.
+10 29.2  Ketiga, lantai empat.
+11 31.2  Sedang direnovasi, mohon jangan dimasuki.
+12 35.0  Kalau lift berhenti di sana, itu normal.
+13 39.2  Rekan-rekan lama kami akan menyambut Anda.
+14 43.2  Mereka sangat ramah.
+15 45.6  Mereka tidak pernah cuti.
+16 47.8  Mereka tidak pernah pulang.
+17 50.4  Terakhir, jadwal kerja Anda.
+18 52.6  Sudah kami siapkan.
+19 54.4  Besok, jam tujuh pagi.
+20 57.0  Dindingnya pas ukuran Anda.
+21 60.4  Selamat bekerja!
+22 62.0  Kami tidak sabar melihat Anda bertahan lama.
+23 65.8  (mesin absen) Terima kasih, Bimo.
+
+RENCANA SHOT (tujuan -> apa yang penonton lihat -> kenapa kamera di sana)
+s01 welcome   0.0-3.9   Janji: kantor ramah. Bimo masuk lobi terang sambil tersenyum, judul muncul. Kamera di ujung lift menatap pintu masuk: penonton menunggu dia datang.
+s02 turn      3.9-9.4   Karakter: Bimo ceria, agak norak. Dia melambai ke kamera lalu berbalik ke mesin. Kamera samping, tenang.
+s03 tap       9.4-16.8  Kegiatan pertama: absen. Bimo menempelkan kartu, mesin menyapa namanya. Kamera dari balik bahu: fokus pada mesin.
+s04 log       16.8-19.9 Petunjuk pertama (lewat benda, bukan suara): layar mesin menampilkan riwayat RUDI, DARTO, BIMO, semuanya hadir 07:00. Dorong kamera pelan ke layar.
+s05 react     19.9-21.4 Reaksi: Bimo menoleh ke kamera dengan senyum canggung. Tawa kecil pertama.
+s06 liftin    21.4-26.0 Kegiatan kedua: lift. Bimo menekan G. Kamera di dalam kabin, menunjukkan ruang sempit.
+s07 tape      26.0-29.2 Petunjuk kedua: lakban di atas tombol 4. Bimo melirik lakban lalu ke kamera, wajah datar.
+s08 ride      29.2-34.4 Antisipasi: angka di atas pintu naik 1-2-3-4 sementara Bimo menatapnya dan wajahnya berubah dari lega ke curiga.
+s09 doors     34.4-38.6 Pembayaran + pembalikan: pintu terbuka ke beton mentah. Bimo tersenyum paksa dan melambai ke arah luar frame. Kamera dari koridor: kita melihat dia dari sisi yang ingin dia hindari.
+s10 walk      38.6-43.2 Bimo melangkah di koridor. Dua sosok berdiri menghadap dinding di kiri-kanan jalur (Rudi, Darto), tidak bergerak. Kamera di belakangnya.
+s11 turn2     43.2-45.8 Kepala keduanya berputar menoleh ke Bimo sambil tersenyum lebar. Badan tetap menghadap dinding. Ini momen horor utama.
+s12 smiles    45.8-49.8 Wajah dekat Rudi dan Darto: senyum tidak wajar, mata tidak berkedip. Bimo mundur dari frame.
+s13 board     50.4-54.2 Jadwal kerja Bimo. Bimo membaca papan: ekspresi turun dari ceria ke panik.
+s14 boardclose 54.2-57.0 Papan jadwal: "BESOK 07.00 TUTUP DINDING — BIMO". Dorong kamera ke nama.
+s15 niche     57.0-60.2 Cekungan di dinding, dua rekan lama berdiri di sisinya menunjuk dengan ramah. Bimo kecil di depan.
+s16 sendoff   60.2-65.8 Bimo berbalik lari, rekan-rekan melambai sambil tersenyum, lampu padam.
+s17 morning   65.8-71.0 Lobi pagi, kosong. Layar mesin: "TERIMA KASIH, BIMO", lalu "ABSEN PULANG: TIDAK TERSEDIA". Slogan perusahaan.
