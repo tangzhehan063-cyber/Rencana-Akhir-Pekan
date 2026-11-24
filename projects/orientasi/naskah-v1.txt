@@ -45,3 +45,7 @@ s14 boardclose 54.2-57.0 Papan jadwal: "BESOK 07.00 TUTUP DINDING — BIMO". Dor
 s15 niche     57.0-60.2 Cekungan di dinding, dua rekan lama berdiri di sisinya menunjuk dengan ramah. Bimo kecil di depan.
 s16 sendoff   60.2-65.8 Bimo berbalik lari, rekan-rekan melambai sambil tersenyum, lampu padam.
 s17 morning   65.8-71.0 Lobi pagi, kosong. Layar mesin: "TERIMA KASIH, BIMO", lalu "ABSEN PULANG: TIDAK TERSEDIA". Slogan perusahaan.
+
+SUARA (ElevenLabs, voice "Kennisa" c470sxKWDq6tA74TL3yB, model eleven_multilingual_v2) — 21 dari 22 kalimat dibuat; kalimat 22 gagal (kuota kredit habis, sisa 27 dari 44 yang dibutuhkan)
+File: projects/orientasi/audio/vo/l01..l21.mp3. Penjadwalan: three/vo.py (tempo 1.03, anticipasi maks 0.3 dtk); caption mengikuti waktu bicara sebenarnya.
+Kalimat 22 ("Kami tidak sabar melihat Anda bertahan lama.") saat ini hanya teks di layar.
