@@ -77,6 +77,8 @@ The B1–B4 renderer writes MP4, SRT/VTT, a contact sheet, a verification report
 
 ### Custom Three.js scenes
 
+**Production order for custom Three.js films is voice-first: naskah, then voice (user chooses ElevenLabs or Gemini), then animation, then a single final render with the voice.** Read [Three.js voice-first workflow](three-production-workflow.md) before planning; it replaces any silent-first or caption-estimate approach.
+
 For a custom Three.js renderer such as ABSEN or LANTAI 4, expose a `window.sceneReady` flag, an async `window.setup()` that returns contiguous `[shotName, startSeconds, endSeconds]` tuples starting at zero, and a `window.renderAt(seconds)` that returns the active shot name. Render from absolute time. Use seeded variation and restore every shot-owned change, including props, poses, material opacity, effects and light levels, even when the preceding shot was skipped.
 
 Run the shared preflight using the project's Playwright installation. Pass optional start and end times to iterate on a short range, then omit them to sample every shot before a full encode.

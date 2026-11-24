@@ -1,0 +1,146 @@
+{
+ "voice_dir": "audio/vo",
+ "lines": [
+  {
+   "id": 1,
+   "text": "Selamat bergabung di PT Lantai Empat Sejahtera!",
+   "plan": 0.2,
+   "voiced": true
+  },
+  {
+   "id": 2,
+   "text": "Hari pertama pasti menyenangkan.",
+   "plan": 3.9,
+   "voiced": true
+  },
+  {
+   "id": 3,
+   "text": "Mari kenali fasilitas kantor kita.",
+   "plan": 6.5,
+   "voiced": true
+  },
+  {
+   "id": 4,
+   "text": "Pertama, mesin absen.",
+   "plan": 9.4,
+   "voiced": true
+  },
+  {
+   "id": 5,
+   "text": "Tempelkan kartu, dengar suara ramah, dan Anda resmi hadir.",
+   "plan": 11.4,
+   "voiced": true
+  },
+  {
+   "id": 6,
+   "text": "Mesin ini tidak pernah salah mencatat.",
+   "plan": 16.8,
+   "voiced": true
+  },
+  {
+   "id": 7,
+   "text": "Kedua, lift.",
+   "plan": 20.4,
+   "voiced": true
+  },
+  {
+   "id": 8,
+   "text": "Cepat, bersih, dan punya lima tombol.",
+   "plan": 22.0,
+   "voiced": true
+  },
+  {
+   "id": 9,
+   "text": "Satu ditutup lakban. Jangan dipikirkan.",
+   "plan": 25.4,
+   "voiced": true
+  },
+  {
+   "id": 10,
+   "text": "Ketiga, lantai empat.",
+   "plan": 29.2,
+   "voiced": true
+  },
+  {
+   "id": 11,
+   "text": "Sedang direnovasi, mohon jangan dimasuki.",
+   "plan": 31.2,
+   "voiced": true
+  },
+  {
+   "id": 12,
+   "text": "Kalau lift berhenti di sana, itu normal.",
+   "plan": 35.0,
+   "voiced": true
+  },
+  {
+   "id": 13,
+   "text": "Rekan-rekan lama kami akan menyambut Anda.",
+   "plan": 39.2,
+   "voiced": true
+  },
+  {
+   "id": 14,
+   "text": "Mereka sangat ramah.",
+   "plan": 43.2,
+   "voiced": true
+  },
+  {
+   "id": 15,
+   "text": "Mereka tidak pernah cuti.",
+   "plan": 45.6,
+   "voiced": true
+  },
+  {
+   "id": 16,
+   "text": "Mereka tidak pernah pulang.",
+   "plan": 47.8,
+   "voiced": true
+  },
+  {
+   "id": 17,
+   "text": "Terakhir, jadwal kerja Anda.",
+   "plan": 50.4,
+   "voiced": true
+  },
+  {
+   "id": 18,
+   "text": "Sudah kami siapkan.",
+   "plan": 52.6,
+   "voiced": true
+  },
+  {
+   "id": 19,
+   "text": "Besok, jam tujuh pagi.",
+   "plan": 54.4,
+   "voiced": true
+  },
+  {
+   "id": 20,
+   "text": "Dindingnya pas ukuran Anda.",
+   "plan": 57.0,
+   "voiced": true
+  },
+  {
+   "id": 21,
+   "text": "Selamat bekerja!",
+   "plan": 60.4,
+   "voiced": true
+  },
+  {
+   "id": 22,
+   "text": "Kami tidak sabar melihat Anda bertahan lama.",
+   "plan": 62.0,
+   "voiced": false
+  }
+ ],
+ "extra_captions": [
+  {
+   "start": 66.2,
+   "end": 68.2,
+   "text": "Terima kasih, Bimo.",
+   "machine": true,
+   "hold": 68.4
+  }
+ ]
+}
