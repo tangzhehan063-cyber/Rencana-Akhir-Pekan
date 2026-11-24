@@ -60,7 +60,18 @@ window.renderAt = (t) => {
   return s.name;
 };
 // Test-only hook (never called by renderAt): lets scripts/expression-sheet.cjs render a face close-up on a bare stickman.
-window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting,
+window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting, compose, walkPose, lookBehind, track: poseTrack,
+  poseCases() { const w = Math.PI * 0.6; return {
+    ...Object.fromEntries(Object.keys(POSE).map(n => [n, POSE[n]])),
+    'run': run(w), 'sneak': sneak(w), 'wave': wave(0.1), 'talk': talk(0.5), 'lookAround': lookAround(0.7, 0), 'lookBehind(1)': lookBehind(1),
+    'tremble': poseAdd(POSE.idle, tremble(0.4, 3)), 'sitNervous': sitNervous(0.15),
+    'walk+lookBehind+nervous': compose(walkPose(w), lookBehind(1), expr('nervous', 1)), 'run+panicked': compose(run(w), expr('panicked', 1)),
+    'sneak+suspicious': compose(sneak(w), lookAround(0.7, 0), expr('suspicious', 1)), 'sit+talk': compose(POSE.sitting, talk(0.5), expr('annoyed', 0.7)),
+    'standing+side-eye': compose(POSE.armsCrossed, expr('suspicious', 1)), 'think+confused': compose(POSE.think, expr('confused', 1)) }; },
+  body(patch, rotY = 0.45) { resetAbsen(); lobbyBase();
+    if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
+    const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = rotY;
+    a.pose({blink: false, ...patch}, 0); cam(LV(-2, 0.95, 2.6), LV(-2, 0.82, -1.2), 42); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; },
   face(name, k = 1, genre = null, extra = {}) { resetAbsen(); lobbyBase();
     if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
     const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = 0;
