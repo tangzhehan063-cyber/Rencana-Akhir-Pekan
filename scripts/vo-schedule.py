@@ -6,7 +6,7 @@
 
 <project_dir>/script.json:
   {"voice_dir": "audio/vo",                       # lNN.mp3 / lNN.wav per line, relative to project_dir
-   "lines": [{"id": 1, "text": "...", "plan": 0.2, "voiced": true}, ...],   # plan = rough wanted start (s); voiced:false = text-only line
+   "lines": [{"id": 1, "text": "...", "plan": 0.2, "voiced": true, "gain_db": 0}, ...],   # gain_db: level-match a line from another provider   # plan = rough wanted start (s); voiced:false = text-only line
    "extra_captions": [{"start": 66.2, "end": 68.2, "text": "...", "machine": true, "hold": 68.4}]}   # e.g. on-screen machine text
 
 Writes (relative to <project_dir>):  three/captions.json (real speech timing), three/out/voice.wav (mono, placed on the timeline),
@@ -28,7 +28,7 @@ def load(i):
 out = np.zeros(int(a.duration * SR), np.float32); sched = []; prev_end = 0.0; caps = []
 for L in cfg['lines']:
     if L.get('voiced', True):
-        x = load(L['id']); d = len(x) / SR; s = max(L['plan'] - a.lead, prev_end + a.gap); e = s + d; k = int(s * SR); out[k:k + len(x)] += x[:len(out) - k]
+        x = load(L['id']) * 10 ** (L.get('gain_db', 0) / 20); d = len(x) / SR; s = max(L['plan'] - a.lead, prev_end + a.gap); e = s + d; k = int(s * SR); out[k:k + len(x)] += x[:len(out) - k]
         sched.append({'id': L['id'], 'text': L['text'], 'plan': L['plan'], 'start': round(s, 3), 'end': round(e, 3), 'dev': round(s - L['plan'], 2)}); prev_end = e
         caps.append({'start': round(s - 0.04, 3), 'end': round(e, 3), 'text': L['text'], 'machine': False, 'hold': round(e + 0.22, 3)})
     else:   # text-only line (e.g. voice not generated): shown after the previous voiced line, never silently dropped

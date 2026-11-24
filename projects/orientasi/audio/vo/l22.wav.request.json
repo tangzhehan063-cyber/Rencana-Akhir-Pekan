@@ -1,0 +1,10 @@
+{
+  "kind": "speech",
+  "model": "gemini-2.5-flash-preview-tts",
+  "requested_at": "2026-11-24T07:34:37.157Z",
+  "request_id": "26a18167-cc8a-4779-9c0a-c17e80641b31",
+  "status": "complete",
+  "warning": "One request only; inspect provider history before retrying",
+  "output": "/home/user/Rencana-Akhir-Pekan/projects/orientasi/audio/vo/l22.wav",
+  "sha256": "f8eb5cb3ff6b90a412b20f131dd48764de0ab8b9bce00ed851497f387d924283"
+}

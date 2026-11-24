@@ -130,8 +130,10 @@
   {
    "id": 22,
    "text": "Kami tidak sabar melihat Anda bertahan lama.",
-   "plan": 62.0,
-   "voiced": false
+   "plan": 62.23,
+   "voiced": true,
+   "gain_db": -10,
+   "provider": "gemini-2.5-flash-preview-tts / Zephyr"
   }
  ],
  "extra_captions": [
