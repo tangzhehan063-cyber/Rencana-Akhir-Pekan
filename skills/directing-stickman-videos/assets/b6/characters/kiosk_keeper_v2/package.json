@@ -364,6 +364,28 @@
           "guaranteed_gait": false,
           "guaranteed_back_view": false
         }
+      },
+      "neck_attachment": {
+        "mount_polygon": [
+          [
+            -4.472552297233065,
+            -248.7073170731707
+          ],
+          [
+            7.527447702766935,
+            -248.7073170731707
+          ],
+          [
+            7.527447702766935,
+            -245.7073170731707
+          ],
+          [
+            -4.472552297233065,
+            -245.7073170731707
+          ]
+        ],
+        "min_overlap_fraction": 0.7,
+        "min_overlap_thickness": 2.0
       }
     },
     "three_quarter": {
@@ -717,6 +739,28 @@
           "guaranteed_gait": false,
           "guaranteed_back_view": false
         }
+      },
+      "neck_attachment": {
+        "mount_polygon": [
+          [
+            -4.771406799587012,
+            -249.8113879003559
+          ],
+          [
+            7.228593200412988,
+            -249.8113879003559
+          ],
+          [
+            7.228593200412988,
+            -246.8113879003559
+          ],
+          [
+            -4.771406799587012,
+            -246.8113879003559
+          ]
+        ],
+        "min_overlap_fraction": 0.7,
+        "min_overlap_thickness": 2.0
       }
     },
     "side": {
@@ -1070,6 +1114,28 @@
           "guaranteed_gait": false,
           "guaranteed_back_view": false
         }
+      },
+      "neck_attachment": {
+        "mount_polygon": [
+          [
+            -5.118887507998224,
+            -243.90340909090912
+          ],
+          [
+            6.881112492001776,
+            -243.90340909090912
+          ],
+          [
+            6.881112492001776,
+            -240.90340909090912
+          ],
+          [
+            -5.118887507998224,
+            -240.90340909090912
+          ]
+        ],
+        "min_overlap_fraction": 0.7,
+        "min_overlap_thickness": 2.0
       }
     }
   },
@@ -1143,6 +1209,7 @@
     ],
     "change_requirement": "A new view, silhouette, target path, gait or limb occlusion requires fresh geometry, alpha, contact and continuity validation; never widen ranges to make a failing target pass."
   },
+  "binding_version": 2,
   "metadata": {
     "wardrobe": {
       "derived_from": "kiosk_keeper_v2",

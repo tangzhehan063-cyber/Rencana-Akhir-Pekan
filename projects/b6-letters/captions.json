@@ -1,0 +1,52 @@
+[
+  {
+    "start": 0.3,
+    "end": 1.6,
+    "text": "One letter."
+  },
+  {
+    "start": 1.7,
+    "end": 3.0,
+    "text": "One signature."
+  },
+  {
+    "start": 3.3,
+    "end": 5.0,
+    "text": "First, the form."
+  },
+  {
+    "start": 7.3,
+    "end": 8.6,
+    "text": "Then the form"
+  },
+  {
+    "start": 8.7,
+    "end": 10.5,
+    "text": "for the form."
+  },
+  {
+    "start": 11.7,
+    "end": 13.2,
+    "text": "Nobody could reach"
+  },
+  {
+    "start": 13.3,
+    "end": 14.6,
+    "text": "anybody."
+  },
+  {
+    "start": 14.8,
+    "end": 16.2,
+    "text": "So he reached"
+  },
+  {
+    "start": 16.3,
+    "end": 17.2,
+    "text": "over it."
+  },
+  {
+    "start": 17.8,
+    "end": 19.8,
+    "text": "Signed. Form 4 next."
+  }
+]

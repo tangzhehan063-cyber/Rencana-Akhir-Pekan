@@ -192,6 +192,7 @@ def build(src, out, wardrobe):
     pkg = json.loads((src / 'package.json').read_text())
     shutil.copytree(src, out)
     pkg['character_id'] = wardrobe.get('character_id', pkg['character_id'] + '_clothed')
+    pkg['binding_version'] = 2
     pkg['display_name'] = wardrobe.get('display_name', pkg['display_name'] + ' (clothed proportions)')
     ink = rgb(pkg['views']['front'].get('ink_color', '#4a2e2e'))
     skin, shadow = rgb(wardrobe.get('skin', '#f6ecec')), rgb(wardrobe.get('skin_shadow', '#d9c5dc'))
@@ -226,6 +227,11 @@ def build(src, out, wardrobe):
         draw_neck(over, chin_x, chin_y - 10, wardrobe.get('neckline', -222.), ink, skin, shadow, seed, flat=(view['facing'] not in ('forward',) and vid == 'side'))
         merged.alpha_composite(over.result())
         merged.save(out / body['path'], optimize=False)
+        # Binding v2 contract: a band on the painted neck, just under the chin,
+        # where head and neck art really overlap (checked by the runtime loader).
+        band = chin_y - 7
+        view['neck_attachment'] = {'mount_polygon': [[chin_x - 6, band], [chin_x + 6, band], [chin_x + 6, band + 3], [chin_x - 6, band + 3]],
+                                   'min_overlap_fraction': 0.7, 'min_overlap_thickness': 2.0}
         body['sha256'] = sha(out / body['path'])
         for side, leg in view['legs'].items():
             img, m = draw_shoe(wardrobe['shoes'], view['facing'], ink, seed + (side,))

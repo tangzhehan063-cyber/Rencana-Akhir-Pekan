@@ -1,0 +1,35 @@
+{
+  "schema": "b6-font-provenance/1",
+  "fonts": [
+    {
+      "path": "source/fonts/Arial.ttf",
+      "source": "/home/user/Rencana-Akhir-Pekan/skills/directing-stickman-videos/assets/fonts/NotoSans.ttf",
+      "kind": "open-fallback",
+      "fallback_font": "NotoSans.ttf",
+      "license_path": "source/fonts/OFL-NotoSans.txt",
+      "license_sha256": "e2e177a32561584d4fc13aaa3cd8e53758a12910f013fe9ca125419111722029",
+      "sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d"
+    },
+    {
+      "path": "source/fonts/ArialBlack.ttf",
+      "source": "/home/user/Rencana-Akhir-Pekan/skills/directing-stickman-videos/assets/fonts/Nunito.ttf",
+      "kind": "open-fallback",
+      "fallback_font": "Nunito.ttf",
+      "license_path": "source/fonts/OFL-Nunito.txt",
+      "license_sha256": "ee9491ad3ea5d390878695bd6cce49beb3cacd5c4312f8ab574b541e9f7afa21",
+      "sha256": "e67d3588b1bcf9879f814de3696f44d52153a573bf8e41d3be37837e9295ec82"
+    },
+    {
+      "path": "source/fonts/CourierNewBold.ttf",
+      "source": "/home/user/Rencana-Akhir-Pekan/skills/directing-stickman-videos/assets/fonts/NotoSans.ttf",
+      "kind": "open-fallback",
+      "fallback_font": "NotoSans.ttf",
+      "license_path": "source/fonts/OFL-NotoSans.txt",
+      "license_sha256": "e2e177a32561584d4fc13aaa3cd8e53758a12910f013fe9ca125419111722029",
+      "sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d"
+    }
+  ],
+  "has_open_fallback": true,
+  "reference_pixel_equivalence": "not_verified",
+  "note": "System fonts are copied only from this user machine into this project. Open fallbacks change typography and require native visual/caption review; they do not reproduce reference pixels."
+}
