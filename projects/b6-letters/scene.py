@@ -51,19 +51,20 @@ def setup(c):
     kp, rp = c.character_packages['keeper'], c.character_packages['runner']
     keeper, runner = rt.Puppet(kp, 'front', 'keeper'), rt.Puppet(rp, 'three_quarter', 'runner')
     kr, kl = kp.views['front'].arms['right'], kp.views['front'].arms['left']
-    kgrip, rgrip = [0, .5], [1, .5]
+    kgrip, rgrip = [.1, .5], [.88, .5]
     ev = lambda t0, t1, st, holders, a0, a1=None: dict(t0=t0, t1=t1, state=st, holders=holders, paper_start=a0, **({'paper_end': a1} if a1 else {}))
     R = [dict(actor_id='runner', arm='left', grip=rgrip)]; Kp = [dict(actor_id='keeper', arm='right', grip=kgrip)]
     events = [ev(0, 14.6, 'owner', R, [368, 800, 0]),
-              ev(14.6, 15.6, 'owner', R, [368, 800, 0], [366, 792, 0]),
-              ev(15.6, 16.4, 'owner', R, [366, 792, 0]),
-              ev(16.4, 16.9, 'shared', R + Kp, [366, 792, 0]),
-              ev(16.9, 17.8, 'owner', Kp, [366, 792, 0], [352, 800, -3]),
-              ev(17.8, 20.001, 'owner', Kp, [352, 800, -3])]
+              ev(14.6, 15.6, 'owner', R, [368, 800, 0], [370, 842, 0]),
+              ev(15.6, 16.4, 'owner', R, [370, 842, 0]),
+              ev(16.4, 16.9, 'shared', R + Kp, [370, 842, 0]),
+              ev(16.9, 17.8, 'owner', Kp, [370, 842, 0], [352, 830, -3]),
+              ev(17.8, 20.001, 'owner', Kp, [352, 830, -3])]
     return dict(rt=rt, bg=bg, keeper=keeper, runner=runner, events=events,
                 timeline=rt.ContactTimeline(events, paper_size=PAPER_SIZE),
                 art=Image.open(base / 'art/letter.png').convert('RGBA'),
                 offers=[a.offer_track(rt, kr, start=s) for s in OFFERS], left_offer=a.offer_track(rt, kl, start=18.2),
+                receive=a.receive_track(rt, kr, start=15.2, reach=.5, receive=.3, hold=.9),
                 stacks={n: sheet_stack(n) for _, n in STACKS})
 
 def background(s, t):
@@ -90,13 +91,13 @@ def frame(t, c):
     g_rest, r_rest = rest(keeper, 'front', 'right', gm), rest(runner, 'three_quarter', 'left', rm)
     tg, tr = {}, {}
     tg.update(contact.targets.get('keeper', {})); tr.update(contact.targets.get('runner', {}))
-    if 15.0 <= t < 16.4: tg['right'] = mix(g_rest, scr([324, 792]), smooth((t - 15.0) / 1.0)).tolist()
-    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([408, 792]), r_rest, smooth((t - 16.9) / .8)).tolist()
-    gact = 'reach' if tg else 'rest'; ract = 'reach' if tr else 'rest'
-    gphase = smooth((t - 15.0) / 1.0) if 15.0 <= t < 16.4 else 1
-    rphase = 1
+    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([402, 842]), r_rest, smooth((t - 16.9) / .8)).tolist()
+    gact = 'receive' if tg else 'rest'; ract = 'reach' if tr else 'rest'
+    gphase = 1
+    rphase = 1 - smooth((t - 16.9) / .8) if 16.9 <= t < 17.8 else 1
     garm = {'left': {'action': 'rest', 'phase': 1}}
-    if not tg:
+    if not tg and 15.2 <= t < 16.4: garm['right'] = s['receive'].sample(t)
+    elif not tg:
         for tk in s['offers']:
             if tk.segments[0].start <= t < tk.segments[-1].end: garm['right'] = tk.sample(t)
     if t >= 18.2 and tuple(garm) == ('left',): garm['left'] = s['left_offer'].sample(t)
@@ -104,6 +105,8 @@ def frame(t, c):
                      head_angle_deg=float(rt_nod(c, t, 17.2)))
     ra = runner.pose(action=ract, phase=rphase, placement=rm, wrist_targets=tr, arm_actions={'right': {'action': 'rest', 'phase': 1}}, frame_index=i,
                      head_angle_deg=float(rt_nod(c, t, 11.8, -3)))
-    return rt.render_scene((720, 1280), actors=[ga, ra], paper=contact, background=bg, frame_index=i, paper_art=s['art'])
+    front = ('keeper:arm:right:forearm',) if t >= 15.2 else ()
+    prop = rt.PropFrame('letter', contact, s['art'], front_limb_parts=front)
+    return rt.render_scene((720, 1280), actors=[ga, ra], props=[prop], background=bg, frame_index=i)
 
 def rt_nod(c, t, start, angle=3.): return c.actions.reaction_nod(t, start=start, angle=angle)
