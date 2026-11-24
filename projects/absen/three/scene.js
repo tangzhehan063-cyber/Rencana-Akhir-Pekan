@@ -105,6 +105,11 @@ function makeStick(opts = {}) {
   const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.008, 0.01), eyeMat); mouth.position.set(0, -0.055, EZ - 0.006); head.add(mouth);
   const mouthO = new THREE.Mesh(new THREE.TorusGeometry(0.013, 0.005, 6, 16), eyeMat); mouthO.position.set(0, -0.058, EZ - 0.004); head.add(mouthO);
   const mouthF = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.005, 6, 16, Math.PI * 0.8), eyeMat); mouthF.position.set(0, -0.075, EZ - 0.012); mouthF.rotation.z = Math.PI * 0.1; head.add(mouthF);
+  // expression-layer mouths (hidden unless pose() asks for them): smile arc (U-shape) and open mouth
+  const arc = (rot, y) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.005, 6, 16, Math.PI * 0.8), eyeMat); m.rotation.z = rot; g.add(m); g.position.set(0, y, EZ - 0.002); g.visible = false; head.add(g); return g; };
+  const mouthS = arc(Math.PI * 1.1, -0.042); // smile (U) ; mouthN = 'sad' frown (n) sitting on the head surface. Group takes scale/tilt so the base rotation does not skew width.
+  const mouthN = arc(Math.PI * 0.1, -0.078);
+  const mouthD = new THREE.Mesh(new THREE.SphereGeometry(0.02, 14, 10), eyeMat); mouthD.position.set(0, -0.06, EZ - 0.004); mouthD.scale.set(1, 0.6, 0.5); mouthD.visible = false; head.add(mouthD);
   const brows = [-0.045, 0.045].map(x => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.009, 0.01), eyeMat); b.position.set(x, 0.062, EZ - 0.01); head.add(b); return b; });
   if (O.cap) { const capMat = new THREE.MeshToonMaterial({color: 0x1f2d4f, gradientMap: toonRamp});
     const cap = inked(new THREE.CylinderGeometry(HR * 0.98, HR * 1.06, 0.09, 28), capMat, INK, head); cap.position.y = HR * 0.72; cap.userData.ol.scale.set(1.07, 1.12, 1.07);
@@ -131,7 +136,10 @@ function makeStick(opts = {}) {
   let blinkSeed = (_stickCount++ * 2.37 + 0.9) % 10; // deterministic per-actor default (was Math.random: re-renders could differ)
   function pose(p, t = 0) {
     const P = Object.assign({la: [0.05, 0.1], le: 0.15, ra: [0.05, 0.1], re: 0.15, ll: [0, 0.02], lk: 0, rl: [0, 0.02], rk: 0,
-      head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1}, p);
+      head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1,
+      // expression layer (all neutral by default => identical to the old pose()): see 12-expressions.js
+      byL: 0, byR: 0, lid: 0, cross: 0, eyeAsym: 0, pupilS: 1, mw: 1, mc: 1, my: 0, mx: 0, mtilt: 0, mo: 0.6, shrug: 0}, p);
+    L.sh.position.y = TORSO - 0.06 + 0.03 * P.shrug; R.sh.position.y = TORSO - 0.06 + 0.03 * P.shrug;
     L.sh.rotation.set(-P.la[0], 0, P.la[1]); L.el.rotation.set(-P.le, 0, 0);
     R.sh.rotation.set(-P.ra[0], 0, -P.ra[1]); R.el.rotation.set(-P.re, 0, 0);
     LL.hp.rotation.set(-P.ll[0], 0, P.ll[1]); LL.kn.rotation.set(P.lk, 0, 0); LL.ank.rotation.set(P.ll[0] - P.lk * 0.6, 0, 0);
@@ -141,10 +149,21 @@ function makeStick(opts = {}) {
     neck.rotation.set(-P.head[1], P.head[0], P.roll);
     // blink: ~every 3.2 s, 0.13 s long (deterministic in t)
     const cyc = (t + blinkSeed) % 3.2, bl = P.blink && cyc < 0.13 ? Math.sin(cyc / 0.13 * Math.PI) : 0;
-    eyes.forEach(e => { e.scale.set(0.8 * (0.85 + 0.15 * P.eyes), Math.max(0.08, 1.15 * P.eyes * (1 - bl)), 0.45); e.position.x = Math.sign(e.position.x) * 0.045 + P.look[0] * 0.015; e.position.y = 0.02 + P.look[1] * 0.015; });
-    pupils.forEach(p => p.visible = P.eyes > 1.15 && bl < 0.5);
-    mouth.visible = P.mouth === 'flat'; mouthO.visible = P.mouth === 'o'; mouthF.visible = P.mouth === 'frown';
-    brows.forEach((b, i) => { b.visible = Math.abs(P.brow) > 0.01; b.rotation.z = (i ? -1 : 1) * P.brow * 0.5; b.position.y = 0.062 + Math.abs(P.brow) * 0.012; });
+    eyes.forEach((e, i) => { const sg = i ? 1 : -1, es = i ? 1 - P.eyeAsym : 1 + P.eyeAsym, ei = P.eyes * es, lv = (i ? P.lidR : P.lidL) ?? P.lid;
+      const sy = Math.max(0.08, 1.15 * ei * (1 - bl));
+      e.scale.set(0.8 * (0.85 + 0.15 * ei), sy * (1 - lv), 0.45);
+      e.position.x = sg * 0.045 + P.look[0] * 0.015 - sg * P.cross * 0.02; e.position.y = 0.02 + P.look[1] * 0.015 - 0.019 * sy * lv; });
+    pupils.forEach(p => { p.visible = P.glint ?? (P.eyes > 1.15 && bl < 0.5); p.scale.setScalar(P.pupilS); });
+    const mk = P.mouth;
+    mouth.visible = mk === 'flat'; mouthO.visible = mk === 'o'; mouthF.visible = mk === 'frown'; mouthS.visible = mk === 'smile'; mouthN.visible = mk === 'sad'; mouthD.visible = mk === 'open';
+    mouth.position.set(P.mx, -0.055 + P.my, EZ - 0.006); mouth.rotation.z = P.mtilt; mouth.scale.set(P.mw, 1, 1);
+    mouthO.position.set(P.mx, -0.058 + P.my, EZ - 0.004); mouthO.scale.set(P.mw, P.mw, 1);
+    mouthF.position.set(P.mx, -0.075 + P.my, EZ - 0.012); mouthF.rotation.z = Math.PI * 0.1 + P.mtilt; mouthF.scale.set(P.mw, P.mc, 1);
+    mouthS.position.set(P.mx, -0.042 + P.my, EZ - 0.002); mouthS.rotation.z = P.mtilt; mouthS.scale.set(P.mw, P.mc, 1);
+    mouthN.position.set(P.mx, -0.078 + P.my, EZ - 0.002); mouthN.rotation.z = P.mtilt; mouthN.scale.set(P.mw, P.mc, 1);
+    mouthD.position.set(P.mx, -0.06 + P.my, EZ - 0.004); mouthD.rotation.z = P.mtilt; mouthD.scale.set(P.mw, P.mo * 1.3, 0.5);
+    brows.forEach((b, i) => { const bv = (i ? P.browR : P.browL) ?? P.brow, by = i ? P.byR : P.byL;
+      b.visible = Math.abs(bv) > 0.01 || Math.abs(by) > 0.01; b.rotation.z = (i ? -1 : 1) * bv * 0.5; b.position.y = 0.062 + Math.abs(bv) * 0.012 + by * 0.02; });
     L.finger.visible = P.point > 0.5;
   }
   pose({});
@@ -162,6 +181,70 @@ function walkTo(actor, t, t0, t1, p0, p1, amt = 1) { // constant-speed walk from
   actor.root.rotation.y = Math.atan2(p1.x - p0.x, p1.z - p0.z);
   const d = p0.distanceTo(p1) * k; return k > 0 && k < 1 ? walkPose(d / STRIDE * Math.PI, amt) : {};
 }
+
+// ---------- EXPRESSION LIBRARY (additive; uses the stickman rig's pose() face/posture keys) ----------
+// Usage in a shot:   actor.pose({...walkPose(...), ...expr('suspicious', 0.8), ra: [...]}, t)
+//   expr(name, k=1, genre)      -> pose patch; k scales the expression from neutral (0) to full (1, may exceed 1 for exaggeration)
+//   exprMix(a, b, k)            -> blend two names/patches (e.g. calm -> panicked)
+//   acting(track, t, genre)     -> emotional progression: track = [[t0,'deadpan',1],[t1,'suspicious',.6],[t2,'panicked',1]] (smoothstep between keys, holds at ends)
+// Keys: brow/browL/browR (angle: + inner-up/worried, - inner-down/angry), byL/byR (brow raise), lid/lidL/lidR (upper-lid closure 0..1),
+//       eyes (size), look [x,y], cross (cross-eyed), eyeAsym, pupilS, glint, mouth ('flat'|'o'|'frown'(legacy)|'sad'|'smile'|'open') with mw (width) mc (curve)
+//       my/mx (offset) mtilt (crooked) mo (open height), head [yaw,pitch], roll (tilt), lean, shrug, blink.
+const EXPR_NEUTRAL = {browL: 0, browR: 0, byL: 0, byR: 0, lid: 0, eyes: 1, look: [0, 0], cross: 0, eyeAsym: 0, pupilS: 1, mouth: 'flat', mw: 1, mc: 1, my: 0, mx: 0, mtilt: 0, mo: 0.6,
+  head: [0, 0], roll: 0, lean: 0, shrug: 0, blink: true};
+const EXPR = {
+  // --- flat / dry
+  deadpan:      {lid: 0.45, mouth: 'flat', head: [0, 0.02]},
+  expressionless: {eyes: 1.08, mouth: 'flat', blink: false},
+  sarcastic:    {lid: 0.3, byR: 0.7, browR: 0.3, browL: -0.2, mouth: 'smile', mw: 0.85, mc: 0.9, mtilt: 0.22, mx: 0.015, roll: 0.1, look: [0.6, 0.8]},
+  smug:         {lid: 0.5, browL: -0.15, browR: 0.1, byR: 0.3, mouth: 'smile', mw: 1, mc: 0.9, mtilt: 0.15, mx: 0.01, head: [0, 0.14], roll: -0.08, lean: -0.03},
+  // --- awkward / social discomfort
+  awkward:      {browL: 0.55, browR: 0.55, mouth: 'smile', mw: 0.9, mc: 0.9, mtilt: -0.08, look: [-1, 0.25], shrug: 0.6, roll: 0.1},
+  embarrassed:  {lid: 0.3, browL: 0.7, browR: 0.7, mouth: 'smile', mw: 0.8, mc: 0.8, mtilt: 0.12, look: [-1, -0.8], shrug: 0.8, head: [-0.1, -0.2], lean: 0.08, roll: 0.08},
+  nervous:      {eyes: 1.15, browL: 0.6, browR: 0.6, byL: 0.2, byR: 0.2, mouth: 'flat', mw: 0.55, my: -0.004, look: [-1, 0.2], shrug: 0.5, blink: true},
+  uncomfortable:{lid: 0.2, browL: 0.4, browR: 0.25, mouth: 'flat', mw: 0.8, mtilt: 0.2, look: [-1, 0], shrug: 0.7, roll: 0.1, head: [0, -0.05]},
+  // --- confusion / doubt
+  confused:     {browL: -0.35, browR: 0.3, byR: 0.7, byL: -0.1, mouth: 'flat', mw: 0.7, mtilt: 0.18, roll: 0.16, head: [0.12, 0.02], look: [0.3, 0.5]},
+  suspicious:   {lid: 0.35, browL: -0.5, browR: -0.2, byR: 0.15, mouth: 'flat', mw: 0.8, mtilt: 0.12, look: [1, 0], head: [-0.3, 0]},    // side-eye: head turned one way, eyes the other
+  disbelief:    {eyes: 1.4, browL: 0.25, browR: 0.25, byL: 1, byR: 1, mouth: 'open', mw: 1.3, mo: 0.9, lean: -0.1, head: [0, 0.12], blink: false},
+  // --- negative
+  annoyed:      {lid: 0.5, browL: -0.6, browR: -0.6, mouth: 'flat', mw: 0.9, mtilt: -0.05, head: [0, -0.04], roll: 0.04},
+  angry:        {lid: 0.25, eyes: 1.05, browL: -1, browR: -1, mouth: 'sad', mw: 1.3, mc: 1.1, my: -0.004, head: [0, -0.1], lean: 0.1},
+  disgusted:    {lid: 0.35, browL: -0.35, browR: 0.1, byR: 0.4, mouth: 'sad', mw: 1.1, mtilt: 0.22, my: -0.002, head: [0, 0.1], roll: 0.12, lean: -0.05},
+  sad:          {lid: 0.35, browL: 0.9, browR: 0.9, mouth: 'sad', mw: 1, mc: 0.9, look: [0, -1], head: [0, -0.15], lean: 0.06},
+  // --- high energy
+  excited:      {eyes: 1.3, browL: 0.3, browR: 0.3, byL: 0.6, byR: 0.6, mouth: 'smile', mw: 1.7, mc: 1.3, head: [0, 0.1], lean: -0.03, blink: false},
+  panicked:     {eyes: 1.45, pupilS: 0.6, browL: 0.9, browR: 0.9, byL: 0.4, byR: 0.4, mouth: 'open', mw: 1.35, mo: 1.6, shrug: 1, head: [0, 0.1], lean: -0.05, blink: false},
+  shocked:      {eyes: 1.35, browL: 0.5, browR: 0.5, byL: 0.8, byR: 0.8, mouth: 'o', mw: 1.1, lean: -0.06, head: [0, 0.05], blink: false},
+  silly:        {eyes: 1.2, cross: 1, byL: 0.5, byR: 0.5, mouth: 'smile', mw: 1.5, mc: 1.2, roll: 0.25},
+  ridiculous:   {eyes: 1.45, cross: 0.9, eyeAsym: 0.3, byL: 0.9, byR: -0.2, browL: 0.4, mouth: 'open', mw: 1.5, mo: 0.9, roll: 0.3, shrug: 1, lean: -0.05},
+  // --- horror / uncanny
+  evilGrin:     {lid: 0.4, browL: -0.7, browR: -0.7, mouth: 'smile', mw: 1.8, mc: 1.2, my: -0.002, pupilS: 0.5, glint: true, head: [0, -0.15], lean: 0.04},
+  unnaturalSmile: {eyes: 1.6, pupilS: 0.3, glint: true, mouth: 'smile', mw: 2.6, mc: 1.0, blink: false},
+  creepy:       {eyes: 1.3, pupilS: 0.4, glint: true, mouth: 'smile', mw: 1.7, mc: 0.7, roll: 0.3, head: [0, -0.1], blink: false},
+  uncanny:      {eyes: 1.25, eyeAsym: 0.35, byL: 0.4, byR: -0.1, browL: 0.15, browR: 0.15, mouth: 'smile', mw: 1.5, mc: 0.9, mtilt: 0.1, roll: -0.12, blink: false},
+};
+// genre -> amplitude of deviation from neutral (character identity untouched; only intensity changes)
+const GENRE_AMP = {comedy: 1.3, drama: 0.6, horror: 0.9, mystery: 0.75};
+function exprBase(x) { return typeof x === 'string' ? Object.assign({}, EXPR_NEUTRAL, EXPR[x]) : Object.assign({}, EXPR_NEUTRAL, x); }
+function exprLerp(A, B, k) { const o = {};
+  for (const key of Object.keys(EXPR_NEUTRAL)) { const a = A[key], b = B[key];
+    if (Array.isArray(a)) o[key] = a.map((v, i) => lerp(v, b[i], k));
+    else if (typeof a === 'number') o[key] = lerp(a, b, k);
+    else o[key] = k < 0.5 ? a : b; }                 // categorical keys (mouth, blink) switch halfway
+  for (const key of ['glint']) { const v = k < 0.5 ? A[key] : B[key]; if (v !== undefined) o[key] = v; }
+  return o; }
+function exprMix(a, b, k) { return exprLerp(exprBase(a), exprBase(b), clamp(k)); }
+function expr(name, k = 1, genre = null) { const amp = genre ? GENRE_AMP[genre] ?? 1 : 1;
+  const o = exprLerp(EXPR_NEUTRAL, exprBase(name), k * amp);
+  const full = exprBase(name); o.mouth = k * amp >= 0.35 ? full.mouth : 'flat'; o.blink = full.blink; if (full.glint !== undefined && k * amp > 0.5) o.glint = full.glint;
+  return o; }
+function acting(track, t, genre = null) { // track: [[time, nameOrPatch, intensity], ...] sorted by time
+  if (t <= track[0][0]) return expr(track[0][1], track[0][2] ?? 1, genre);
+  for (let i = 0; i < track.length - 1; i++) { const [t0, a, ka = 1] = track[i], [t1, b, kb = 1] = track[i + 1];
+    if (t < t1) { const k = ease((t - t0) / (t1 - t0)); const A = exprLerp(EXPR_NEUTRAL, exprBase(a), ka * (GENRE_AMP[genre] ?? 1)), B = exprLerp(EXPR_NEUTRAL, exprBase(b), kb * (GENRE_AMP[genre] ?? 1));
+      const o = exprLerp(A, B, k); const fa = exprBase(a), fb = exprBase(b); o.mouth = k < 0.5 ? fa.mouth : fb.mouth; o.blink = k < 0.5 ? fa.blink : fb.blink; return o; } }
+  const L = track[track.length - 1]; return expr(L[1], L[2] ?? 1, genre); }
 
 // ---------- TEXTURES ----------
 function ledTex() {
@@ -714,4 +797,11 @@ window.renderAt = (t) => {
   overlay(t);
   return s.name;
 };
+// Test-only hook (never called by renderAt): lets scripts/expression-sheet.cjs render a face close-up on a bare stickman.
+window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting,
+  face(name, k = 1, genre = null, extra = {}) { resetAbsen(); lobbyBase();
+    if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
+    const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = 0;
+    a.pose({...(typeof name === 'string' ? expr(name, k, genre) : name), blink: false, ...extra}, 0);
+    cam(LV(-2, 1.53, 0.5), LV(-2, 1.53, -1.2), 32); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; return name; } };
 window.sceneReady = true;

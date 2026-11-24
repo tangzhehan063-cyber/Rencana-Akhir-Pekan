@@ -88,6 +88,17 @@ node skills/directing-stickman-videos/scripts/three-scene-preflight.cjs \
 
 The command saves three PNGs per shot and compares their renders in forward and reverse order. Fix timeline errors, browser errors and differing frames, then rerun into a fresh evidence directory. If the environment serves the entry over HTTP, set `THREE_SCENE_URL` to that entry URL. Use `CHROMIUM_EXECUTABLE` when the project uses system Chromium.
 
+Before refactoring a Three.js project, record a pixel baseline and re-check it afterwards; any difference in an existing film needs explicit approval:
+
+```bash
+node scripts/frame-baseline.cjs projects/absen/three record   # once, before changes
+node scripts/frame-baseline.cjs projects/absen/three check    # after changes: exit 1 on any changed frame
+```
+
+ABSEN's `scene.js` is generated from `parts/` (`python3 build.py`; `python3 build.py --check` detects drift). Edit `parts/`, never `scene.js`.
+
+**Expression layer (ABSEN rig, `parts/12-expressions.js`).** Faces are data, not per-shot angles: `actor.pose({...expr('suspicious', 0.8), ...}, t)`. About 25 named presets (deadpan, smug, awkward, panicked, evilGrin, unnaturalSmile, creepy, uncanny, ridiculous...), `exprMix(a, b, k)` to blend, `acting([[t0,'deadpan',.6],[t1,'suspicious',.8],[t2,'panicked',1]], t, 'horror')` for emotional progression, and a genre amplitude (`comedy` 1.3, `drama` .6, `horror` .9, `mystery` .75). New pose keys default to neutral, so existing shots render unchanged. Review faces with `node scripts/expression-sheet.cjs projects/absen/three <outDir> [genre]`. Presets are starting points: tune numbers per story, and use `'sad'` (not legacy `'frown'`) for new cemberut mouths.
+
 Review the saved PNGs at the delivery aspect ratio and watch the shots with sound at normal speed before encoding the full film:
 
 - Check the actor's face, hands and relevant props at the start, middle and end of camera moves. Include any point where a wall, stair landing or foreground object crosses the line of sight.

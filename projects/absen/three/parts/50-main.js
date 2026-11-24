@@ -59,4 +59,11 @@ window.renderAt = (t) => {
   overlay(t);
   return s.name;
 };
+// Test-only hook (never called by renderAt): lets scripts/expression-sheet.cjs render a face close-up on a bare stickman.
+window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting,
+  face(name, k = 1, genre = null, extra = {}) { resetAbsen(); lobbyBase();
+    if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
+    const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = 0;
+    a.pose({...(typeof name === 'string' ? expr(name, k, genre) : name), blink: false, ...extra}, 0);
+    cam(LV(-2, 1.53, 0.5), LV(-2, 1.53, -1.2), 32); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; return name; } };
 window.sceneReady = true;
