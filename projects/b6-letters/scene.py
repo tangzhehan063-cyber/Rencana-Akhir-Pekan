@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 K = 1.4                                   # one uniform character scale
-KEEPER, RUNNER = (140., 1070.), (575., 1070.)
+KEEPER, RUNNER = (150., 1070.), (575., 1070.)
 FOCAL = np.array([360., 820.])
 PAPER_SIZE = (62 * 1.35, 76 * 1.35)
 OFFERS = (3.3, 6.0, 8.7)                  # clerk's right arm; each ends with a stack landing
@@ -27,7 +27,7 @@ def camera(t):
 def place(cam, base):
     return cam @ np.array([[K, 0, base[0]], [0, K, base[1]], [0, 0, 1.]])
 
-def sheet_stack(n, w=62, h=8):
+def sheet_stack(n, w=62, h=11):
     """Procedural form stack: flat cream sheets with ink edges, built once per size."""
     img = Image.new('RGBA', (w + 16, n * h + 12), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
     for i in range(n):
@@ -55,11 +55,11 @@ def setup(c):
     ev = lambda t0, t1, st, holders, a0, a1=None: dict(t0=t0, t1=t1, state=st, holders=holders, paper_start=a0, **({'paper_end': a1} if a1 else {}))
     R = [dict(actor_id='runner', arm='left', grip=rgrip)]; Kp = [dict(actor_id='keeper', arm='right', grip=kgrip)]
     events = [ev(0, 14.6, 'owner', R, [368, 800, 0]),
-              ev(14.6, 15.6, 'owner', R, [368, 800, 0], [365, 650, 0]),
-              ev(15.6, 16.4, 'owner', R, [365, 650, 0]),
-              ev(16.4, 16.9, 'shared', R + Kp, [365, 650, 0]),
-              ev(16.9, 17.8, 'owner', Kp, [365, 650, 0], [340, 700, -3]),
-              ev(17.8, 20.001, 'owner', Kp, [340, 700, -3])]
+              ev(14.6, 15.6, 'owner', R, [368, 800, 0], [366, 792, 0]),
+              ev(15.6, 16.4, 'owner', R, [366, 792, 0]),
+              ev(16.4, 16.9, 'shared', R + Kp, [366, 792, 0]),
+              ev(16.9, 17.8, 'owner', Kp, [366, 792, 0], [352, 800, -3]),
+              ev(17.8, 20.001, 'owner', Kp, [352, 800, -3])]
     return dict(rt=rt, bg=bg, keeper=keeper, runner=runner, events=events,
                 timeline=rt.ContactTimeline(events, paper_size=PAPER_SIZE),
                 art=Image.open(base / 'art/letter.png').convert('RGBA'),
@@ -90,8 +90,8 @@ def frame(t, c):
     g_rest, r_rest = rest(keeper, 'front', 'right', gm), rest(runner, 'three_quarter', 'left', rm)
     tg, tr = {}, {}
     tg.update(contact.targets.get('keeper', {})); tr.update(contact.targets.get('runner', {}))
-    if 15.0 <= t < 16.4: tg['right'] = mix(g_rest, scr([323, 650]), smooth((t - 15.0) / 1.0)).tolist()
-    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([407, 650]), r_rest, smooth((t - 16.9) / .8)).tolist()
+    if 15.0 <= t < 16.4: tg['right'] = mix(g_rest, scr([324, 792]), smooth((t - 15.0) / 1.0)).tolist()
+    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([408, 792]), r_rest, smooth((t - 16.9) / .8)).tolist()
     gact = 'reach' if tg else 'rest'; ract = 'reach' if tr else 'rest'
     gphase = smooth((t - 15.0) / 1.0) if 15.0 <= t < 16.4 else 1
     rphase = 1

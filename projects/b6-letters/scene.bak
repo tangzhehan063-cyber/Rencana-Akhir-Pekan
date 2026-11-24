@@ -1,0 +1,109 @@
+"""'The Proper Form': a 20 s silent portrait story, authored for the B6 production runtime.
+
+Courier (runner) wants one letter signed. The clerk (keeper) keeps adding forms until the
+stacks block the low route; the courier finally hands the letter over them.
+Camera is one slow uniform push-in (no actor sway). No sound, no particles, no per-frame noise.
+"""
+from pathlib import Path
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
+
+K = 1.4                                   # one uniform character scale
+KEEPER, RUNNER = (140., 1070.), (575., 1070.)
+FOCAL = np.array([360., 820.])
+PAPER_SIZE = (62 * 1.35, 76 * 1.35)
+OFFERS = (3.3, 6.0, 8.7)                  # clerk's right arm; each ends with a stack landing
+SPAWN = (3.85, 6.55, 9.25, 18.8)          # stack landing times (last: clerk's left arm)
+STACKS = ((250, 5), (284, 8), (318, 11), (214, 4))    # x, sheets
+_CACHE = {}
+
+def smooth(v): v = float(np.clip(v, 0, 1)); return v * v * (3 - 2 * v)
+def mix(a, b, u): return np.asarray(a, float) * (1 - u) + np.asarray(b, float) * u
+
+def camera(t):
+    s = 1.0 + .015 * smooth((t - 3.0) / 4.0) + .02 * smooth((t - 14.5) / 2.5)
+    return np.array([[s, 0, FOCAL[0] * (1 - s)], [0, s, FOCAL[1] * (1 - s)], [0, 0, 1.]])
+
+def place(cam, base):
+    return cam @ np.array([[K, 0, base[0]], [0, K, base[1]], [0, 0, 1.]])
+
+def sheet_stack(n, w=62, h=11):
+    """Procedural form stack: flat cream sheets with ink edges, built once per size."""
+    img = Image.new('RGBA', (w + 16, n * h + 12), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
+    for i in range(n):
+        y = img.height - 6 - (i + 1) * h; x = 8 + ((i * 7) % 5 - 2)
+        d.rectangle((x, y, x + w, y + h), fill=(244, 234, 208, 255), outline=(74, 46, 46, 255), width=2)
+        d.line((x + 6, y + h // 2, x + w * .6, y + h // 2), fill=(150, 130, 120, 255), width=1)
+    return img
+
+def setup(c):
+    base = c.base
+    pano = Image.open(base / 'art/hotel-panorama.png').convert('RGB')
+    f = 1280 / pano.height
+    pano = pano.resize((round(pano.width * f), 1280), Image.Resampling.LANCZOS).crop((1050, 0, 1770, 1280))
+    bg = pano.convert('RGBA')
+    table = Image.open(base / 'art/table.png').convert('RGBA'); table.thumbnail((300, 230), Image.Resampling.LANCZOS)
+    sh = Image.new('RGBA', bg.size); ImageDraw.Draw(sh).ellipse((70, 1040, 400, 1100), fill=(58, 40, 29, 60))
+    ImageDraw.Draw(sh).ellipse((400, 1040, 670, 1100), fill=(58, 40, 29, 60))
+    bg = Image.alpha_composite(bg, sh.filter(ImageFilter.GaussianBlur(9)))
+    bg.alpha_composite(table, (200, 830))
+    rt = c.puppet_runtime; a = c.actions
+    kp, rp = c.character_packages['keeper'], c.character_packages['runner']
+    keeper, runner = rt.Puppet(kp, 'front', 'keeper'), rt.Puppet(rp, 'three_quarter', 'runner')
+    kr, kl = kp.views['front'].arms['right'], kp.views['front'].arms['left']
+    kgrip, rgrip = [0, .5], [1, .5]
+    ev = lambda t0, t1, st, holders, a0, a1=None: dict(t0=t0, t1=t1, state=st, holders=holders, paper_start=a0, **({'paper_end': a1} if a1 else {}))
+    R = [dict(actor_id='runner', arm='left', grip=rgrip)]; Kp = [dict(actor_id='keeper', arm='right', grip=kgrip)]
+    events = [ev(0, 14.6, 'owner', R, [368, 800, 0]),
+              ev(14.6, 15.6, 'owner', R, [368, 800, 0], [365, 705, 0]),
+              ev(15.6, 16.4, 'owner', R, [365, 705, 0]),
+              ev(16.4, 16.9, 'shared', R + Kp, [365, 705, 0]),
+              ev(16.9, 17.8, 'owner', Kp, [365, 705, 0], [340, 740, -3]),
+              ev(17.8, 20.001, 'owner', Kp, [340, 740, -3])]
+    return dict(rt=rt, bg=bg, keeper=keeper, runner=runner, events=events,
+                timeline=rt.ContactTimeline(events, paper_size=PAPER_SIZE),
+                art=Image.open(base / 'art/letter.png').convert('RGBA'),
+                offers=[a.offer_track(rt, kr, start=s) for s in OFFERS], left_offer=a.offer_track(rt, kl, start=18.2),
+                stacks={n: sheet_stack(n) for _, n in STACKS})
+
+def background(s, t):
+    img = s['bg'].copy()
+    for (x, n), spawn in zip(STACKS, SPAWN):
+        if t < spawn: continue
+        u = smooth((t - spawn) / .3); sprite = s['stacks'][n]
+        img.alpha_composite(sprite, (int(x - sprite.width / 2), int(872 - sprite.height - 50 * (1 - u))))
+    return img
+
+def frame(t, c):
+    key = (str(c.base), c.fingerprint)
+    if key not in _CACHE: _CACHE[key] = setup(c)
+    s = _CACHE[key]; rt = s['rt']; i = round(t * 30)
+    cam = camera(t); inv = np.linalg.inv(cam)
+    bg = background(s, t).transform((720, 1280), Image.Transform.AFFINE, tuple(inv[:2].flatten()), resample=Image.Resampling.BICUBIC)
+    gm, rm = place(cam, KEEPER), place(cam, RUNNER)
+    scr = lambda p: (cam @ np.r_[p, 1])[:2]
+    contact = rt.transform_contact(s['timeline'].sample(t), cam)
+    def rest(actor, view, side, m):
+        arm = actor.character.views[view].arms[side]
+        return (m @ np.r_[rt.forward_kinematics(arm, rt.PoseLibrary.sample(arm, 'rest', 1))[2], 1])[:2]
+    keeper, runner = s['keeper'], s['runner']
+    g_rest, r_rest = rest(keeper, 'front', 'right', gm), rest(runner, 'three_quarter', 'left', rm)
+    tg, tr = {}, {}
+    tg.update(contact.targets.get('keeper', {})); tr.update(contact.targets.get('runner', {}))
+    if 15.0 <= t < 16.4: tg['right'] = mix(g_rest, scr([323, 705]), smooth((t - 15.0) / 1.0)).tolist()
+    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([407, 705]), r_rest, smooth((t - 16.9) / .8)).tolist()
+    gact = 'reach' if tg else 'rest'; ract = 'reach' if tr else 'rest'
+    gphase = smooth((t - 15.0) / 1.0) if 15.0 <= t < 16.4 else 1
+    rphase = 1
+    garm = {'left': {'action': 'rest', 'phase': 1}}
+    if not tg:
+        for tk in s['offers']:
+            if tk.segments[0].start <= t < tk.segments[-1].end: garm['right'] = tk.sample(t)
+    if t >= 18.2 and tuple(garm) == ('left',): garm['left'] = s['left_offer'].sample(t)
+    ga = keeper.pose(action=gact if tg else 'rest', phase=gphase, placement=gm, wrist_targets=tg, arm_actions=garm if not tg else {'left': garm['left']}, frame_index=i,
+                     head_angle_deg=float(rt_nod(c, t, 17.2)))
+    ra = runner.pose(action=ract, phase=rphase, placement=rm, wrist_targets=tr, arm_actions={'right': {'action': 'rest', 'phase': 1}}, frame_index=i,
+                     head_angle_deg=float(rt_nod(c, t, 11.8, -3)))
+    return rt.render_scene((720, 1280), actors=[ga, ra], paper=contact, background=bg, frame_index=i, paper_art=s['art'])
+
+def rt_nod(c, t, start, angle=3.): return c.actions.reaction_nod(t, start=start, angle=angle)
