@@ -1,5 +1,5 @@
 const { createHash } = require('node:crypto');
-const { mkdir, writeFile } = require('node:fs/promises');
+const { mkdir, writeFile, readdir, readFile } = require('node:fs/promises');
 const { createRequire } = require('node:module');
 const { dirname, join, resolve } = require('node:path');
 const { pathToFileURL } = require('node:url');
@@ -15,6 +15,21 @@ async function main() {
   if (start !== undefined && (!Number.isFinite(from) || !Number.isFinite(to) || from < 0 || to <= from)) {
     throw new Error('START and END must be finite seconds with 0 <= START < END.');
   }
+  // Static determinism lint: frame content must be a pure function of t.
+  // Additive point sprites are reported, not blocked: dust must be justified by the scene.
+  const forbidden = /Math\.random\s*\(|Date\.now\s*\(|performance\.now\s*\(|new Date\s*\(/;
+  const sceneDir = dirname(index);
+  const lintErrors = [];
+  const lintWarnings = [];
+  for (const name of await readdir(sceneDir)) {
+    if (!name.endsWith('.js') && !name.endsWith('.mjs')) continue;
+    (await readFile(join(sceneDir, name), 'utf8')).split('\n').forEach((line, i) => {
+      if (forbidden.test(line.replace(/\/\/.*$/, ''))) lintErrors.push(`${name}:${i + 1}: non-deterministic source in scene code`);
+      if (/THREE\.Points\(/.test(line) && /AdditiveBlending/.test(line)) lintWarnings.push(`${name}:${i + 1}: additive point sprites can twinkle; keep only if the scene justifies them`);
+    });
+  }
+  lintWarnings.forEach(w => console.warn('warning: ' + w));
+  if (lintErrors.length) throw new Error('Determinism lint failed:\n' + lintErrors.join('\n'));
   const projectRequire = createRequire(join(dirname(index), 'package.json'));
   const { chromium } = projectRequire('playwright');
   const browser = await chromium.launch({
