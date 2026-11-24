@@ -26,11 +26,12 @@ const DOOR4 = V(-40 + 0.7, 0, 1.57); // stair door (landing A, group oy=0)
 
 function resetAbsen() {
   LOB.visible = STW.visible = F4.visible = CAB.visible = false; darto.root.visible = false; handPhone.g.visible = false; handGlove.visible = false;
+  darto.R.finger.visible = false; pocket.g.position.x = -0.06;
   torchOn(0); pocket.glow.intensity = 0; handPhone.glow.intensity = 0; drawPhone(0, 0); drawMach('idle', '07:00'); machLight.intensity = 0; scanGlow.material.opacity = 0.15;
   drawWClock('06:59'); lobDoorL.position.x = -0.3; lobDoorR.position.x = 0.3; lobCabLight.intensity = 0; drawLedIf(lobLedTex, 'L', '#ff3326');
   fx = {cctv: 0, ca: 1, vig: 1}; cctvEl.style.display = 'none'; knockShake = 0; dust.visible = false; endEl.style.opacity = 0; fadeEl.style.opacity = 0;
   scene.background.set(0x05070a); scene.fog.color.set(0x080b0f); scene.fog.density = 0.045; drawBoardCircleIf(0); nicheLight.intensity = 0;
-  workLight.intensity = 300; workFill.intensity = 14; coldFill.intensity = 4;
+  workLight.intensity = 300; workFill.intensity = 14; coldFill.intensity = 4; boardLight.intensity = 3;
   for (const g of STW.children) g.children.forEach(c => { if (c.geometry && c.geometry.parameters && c.geometry.parameters.depth === 0.06 && c.geometry.parameters.width === 0.95) c.rotation.y = 0; });
 }
 function lobbyBase(dawnK = 1) { LOB.visible = true; dawn.intensity = 60 * dawnK; lobAmb.intensity = 4 * dawnK; scene.fog.density = 0.02; }
@@ -99,11 +100,13 @@ const shots = [
   {name: 'desk-monitor', t0: 38.6, t1: 39.75, f(t) { lobbyBase(0.35); darto.root.visible = true; drawLedIf(lobLedTex, '4', '#ff2a1a');
     darto.root.position.copy(LV(-3.35, 0, 1.75)); darto.root.rotation.y = Math.PI; darto.pose({head: [0, -0.05], eyes: 1.4, brow: 0.8, mouth: 'frown', la: [0.4, 0.2], le: 0.9, ra: [0.4, 0.2], re: 0.9, lean: 0.12}, t);
     cam(LV(-2.35, 1.5, 1.95), LV(-3.5, 1.2, 0.9), 46); }},
-  {name: 'stairs-up', t0: 39.75, t1: 42.3, f(t) { STW.visible = true; darto.root.visible = true; torchOn(1);
+  {name: 'stairs-up', t0: 39.75, t1: 42.3, f(t) { STW.visible = true; darto.root.visible = true; torchOn(0.55);
     const k = seg(t, 39.75, 42.2); const p0 = V(-40 + 0.6, -1.58, -2.75), p1 = V(-40 + 0.6, 0.02, -0.05);
     const p = p0.clone().lerp(p1, k); darto.root.position.copy(p); darto.root.rotation.y = 0;
-    darto.pose({...walkPose(k * 2.7 / STRIDE * Math.PI, 0.8), ra: [1.25, 0.05], re: 0.2, head: [0, 0.15], eyes: 1.2, brow: 0.5}, t);
-    placeDust(V(-39.4, -0.5, -1.4), t, 1); cam(V(-38.3, 1.9, 1.1), V(-39.4, -0.4, -2.0), 52); }},
+    const strength = 0.8 * ease(k / 0.08) * ease((1 - k) / 0.08);
+    darto.pose({...walkPose(k * p0.distanceTo(p1) / STRIDE * Math.PI, strength), ra: [1.25, 0.05], re: 0.2, head: [0, 0.15], eyes: 1.2, brow: 0.5}, t);
+    placeDust(V(-39.4, -0.5, -1.4), t, 1);
+    cam(p.clone().add(V(0.32, 1.28, 1.45)), p.clone().add(V(0, 0.9, 0)), 65); }},
   {name: 'door-ajar', t0: 42.3, t1: 47.8, f(t) { STW.visible = true; darto.root.visible = true; torchOn(1);
     const d = stairDoors.find(d => Math.abs(d.parent.position.y) < 0.01); const ajar = 0.18 + 0.35 * seg(t, 45.9, 46.7);
     d.rotation.y = ajar; d.position.x = 0.7 - 0.0;
@@ -133,7 +136,9 @@ const shots = [
   {name: 'board-wide', t0: 56.87, t1: 61.1, f(t) { F4.visible = CAB.visible = true; darto.root.visible = true; torchOn(0.45);
     darto.root.position.set(1.2, 0.02, 17.7); darto.root.rotation.y = 0.55; darto.pose({ra: [1.3, 0.1], re: 0.15, head: [0, 0.05], eyes: 1.2, brow: 0.5}, t);
     cam(V(0.0, 1.7, 16.2).lerp(V(0.35, 1.65, 16.7), seg(t, 56.87, 61.1)), V(2.55, 1.35, 19.2), 44); }},
-  {name: 'board-close', t0: 61.1, t1: 64.9, f(t) { F4.visible = CAB.visible = true; torchOn(0); drawBoardCircleIf(seg(t, 63.85, 64.6)); boardLight.intensity = 4;
+  {name: 'board-close', t0: 61.1, t1: 64.9, f(t) { F4.visible = CAB.visible = true; torchOn(0); drawBoardCircleIf(seg(t, 63.85, 64.6));
+    // Keep the handwritten clue readable under the work lamp and bloom.
+    workLight.intensity = 35; workFill.intensity = 5; boardLight.intensity = 2;
     const k = seg(t, 61.1, 64.4); const a = BOARD.localToWorld(V(-0.2, 1.42, 0)), b = BOARD.localToWorld(V(0.26, 1.2, 0));
     const tgt = a.clone().lerp(b, k); const n = BOARD.localToWorld(V(0, 0, 1)).sub(BOARD.localToWorld(V(0, 0, 0))).normalize();
     cam(tgt.clone().add(n.multiplyScalar(1.25)), tgt, 40); }},

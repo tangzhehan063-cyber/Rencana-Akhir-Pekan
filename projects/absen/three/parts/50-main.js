@@ -20,7 +20,7 @@ const lookPass = new ShaderPass({uniforms: {tDiffuse: {value: null}, uCA: {value
       vec3 col = vec3(texture2D(tDiffuse, vUv + off).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - off).b);
       if (uCCTV > 0.5) { float l = dot(col, vec3(0.3,0.59,0.11)); col = vec3(l*0.92, l*1.02, l*0.95); col = (col-0.5)*1.25+0.5;
         col *= 0.88 + 0.12*sin(vUv.y*1280.0*1.6); col += (h(vUv*vec2(720.0,1280.0) + floor(uTime*30.0)) - 0.5)*0.09; }
-      col *= mix(1.0, smoothstep(0.95, 0.25, length(c*vec2(1.0,0.75))), 0.55*uVig);
+      col *= mix(1.0, (1.0 - smoothstep(0.25, 0.95, length(c*vec2(1.0,0.75)))), 0.55*uVig);
       gl_FragColor = vec4(col, 1.0); }`});
 composer.addPass(lookPass); composer.addPass(new OutputPass());
 

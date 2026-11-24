@@ -13,6 +13,7 @@ function inked(geo, mat, ink = INK, parent) { // mesh + back-face hull slightly 
 function capsuleInked(len, r) { const g = new THREE.Group();
   const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 6, 14), toonBody); m.position.y = -len / 2; m.castShadow = true;
   const o = new THREE.Mesh(new THREE.CapsuleGeometry(r + INK, len, 6, 14), inkMat); o.position.y = -len / 2; g.add(m, o); return g; }
+let _stickCount = 0;
 function makeStick(opts = {}) {
   const O = Object.assign({tie: true, card: true, cap: false, mustache: false, badge: false, belt: false}, opts);
   const HR = 0.14, LR = 0.043, TR = 0.064, UPPER = 0.28, FORE = 0.27, THIGH = 0.42, SHIN = 0.42, TORSO = 0.46;
@@ -64,7 +65,7 @@ function makeStick(opts = {}) {
     const foot = new THREE.Mesh(new THREE.CapsuleGeometry(0.042, 0.07, 4, 10), toonBody); foot.rotation.x = Math.PI / 2; foot.scale.set(1.15, 1, 0.75); foot.position.set(0, -0.02, 0.045); foot.castShadow = true; ank.add(foot);
     return {hp, kn, ank}; };
   const LL = mkLeg(1), RL = mkLeg(-1);
-  let blinkSeed = Math.random() * 10;
+  let blinkSeed = (_stickCount++ * 2.37 + 0.9) % 10; // deterministic per-actor default (was Math.random: re-renders could differ)
   function pose(p, t = 0) {
     const P = Object.assign({la: [0.05, 0.1], le: 0.15, ra: [0.05, 0.1], re: 0.15, ll: [0, 0.02], lk: 0, rl: [0, 0.02], rk: 0,
       head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1}, p);
@@ -89,8 +90,8 @@ function makeStick(opts = {}) {
 // walk/run cycles; ph advances with travelled distance so feet do not slide (stride ~0.62 m per half-cycle)
 function walkPose(ph, amt = 1) {
   const s = Math.sin(ph), c = Math.cos(ph);
-  return {ll: [0.42 * s * amt, 0.02], lk: Math.max(0, -c) * 0.75 * amt + 0.05, rl: [-0.42 * s * amt, 0.02], rk: Math.max(0, c) * 0.75 * amt + 0.05,
-    la: [-0.35 * s * amt, 0.1], ra: [0.35 * s * amt, 0.1], le: 0.3, re: 0.3, hipY: -0.03 * Math.abs(Math.cos(ph)) * amt, twist: 0.08 * s * amt};
+  return {ll: [0.42 * s * amt, 0.02], lk: (Math.max(0, -c) * 0.75 + 0.05) * amt, rl: [-0.42 * s * amt, 0.02], rk: (Math.max(0, c) * 0.75 + 0.05) * amt,
+    la: [lerp(0.05, -0.35 * s, amt), 0.1], ra: [lerp(0.05, 0.35 * s, amt), 0.1], le: lerp(0.15, 0.3, amt), re: lerp(0.15, 0.3, amt), hipY: -0.03 * Math.abs(Math.cos(ph)) * amt, twist: 0.08 * s * amt};
 }
 const STRIDE = 0.62;
 function walkTo(actor, t, t0, t1, p0, p1, amt = 1) { // constant-speed walk from p0 to p1, returns pose patch
