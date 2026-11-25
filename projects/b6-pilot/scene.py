@@ -81,17 +81,19 @@ def frame(t, c):
     gm, rm = place(cam, KEEPER), place(cam, RUNNER)
     scr = lambda p: (cam @ np.r_[p, 1])[:2]
     contact = rt.transform_contact(s['timeline'].sample(t), cam)
-    def rest(actor, view, side, m):
+    def rest(actor, view, side, m, action='rest', phase=1):
         arm = actor.character.views[view].arms[side]
-        return (m @ np.r_[rt.forward_kinematics(arm, rt.PoseLibrary.sample(arm, 'rest', 1))[2], 1])[:2]
+        return (m @ np.r_[rt.forward_kinematics(arm, rt.PoseLibrary.sample(arm, action, phase))[2], 1])[:2]
     keeper, runner = s['keeper'], s['runner']
     g_rest, r_rest = rest(keeper, 'front', 'right', gm), rest(runner, 'front', 'left', rm)
     tg, tr = {}, {}
     tg.update(contact.targets.get('keeper', {})); tr.update(contact.targets.get('runner', {}))
-    if 16.9 <= t < 17.8 and 'runner' not in contact.targets: tr['left'] = mix(scr([402, 842]), r_rest, smooth((t - 16.9) / .8)).tolist()
-    gact = 'receive' if tg else 'rest'; ract = 'reach' if tr else 'rest'
+    # Courier lets go: first ease the hand onto the fitted reach pose, then retract by pure FK.
+    if 16.9 <= t < 17.2 and 'runner' not in contact.targets:
+        tr['left'] = mix(scr([403, 841]), rest(runner, 'front', 'left', rm, 'reach', 1), smooth((t - 16.9) / .3)).tolist()
+    gact = 'receive' if tg else 'rest'; ract = 'reach' if (tr or 17.2 <= t < 17.9) else 'rest'
     gphase = 1
-    rphase = 1 - smooth((t - 16.9) / .8) if 16.9 <= t < 17.8 else 1
+    rphase = 1 - smooth((t - 17.2) / .7) if 17.2 <= t < 17.9 else 1
     garm = {'left': {'action': 'rest', 'phase': 1}}
     if not tg and 15.2 <= t < 16.4: garm['right'] = s['receive'].sample(t)
     elif not tg:
