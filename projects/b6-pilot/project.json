@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "style": "B6",
+  "renderer": "b6-production-v1",
+  "purpose": "production",
+  "stage": "authored",
+  "duration": 20,
+  "fps": 30,
+  "scene": "scene.py",
+  "story": "story.json",
+  "captions": "captions.json",
+  "formats": {
+    "9:16": "formats/portrait.json"
+  },
+  "voice": {
+    "provider": "none",
+    "name": "silent pilot (requested)",
+    "voice_id": null,
+    "path": "audio/silence.m4a",
+    "sha256": "ff99174d8ab99a112ac2a833bb01762849415c7b869956587295bf98c1efdd8a",
+    "speed": 1,
+    "contains_sfx": false
+  },
+  "bindings": null,
+  "character_system": {
+    "schema": "b6-character-system/1",
+    "registry": "characters.json"
+  },
+  "quality_target": "quality-target.json",
+  "caption_font_variant": "archivo-black",
+  "inputs": [
+    "art/letter.png",
+    "art/room.png",
+    "art/table.png",
+    "b6_actions.py",
+    "b6_asset_roles.py",
+    "b6_character_preflight.py",
+    "b6_iteration.py",
+    "b6_puppet.py",
+    "b6_space.py",
+    "caption_renderer.py",
+    "fonts/ArchivoBlack.ttf",
+    "fonts/OFL-ArchivoBlack.txt",
+    "motion_review.py",
+    "story-ledger.json"
+  ],
+  "review": {
+    "status": "pending",
+    "art": null,
+    "acting": null,
+    "sound": null
+  }
+}

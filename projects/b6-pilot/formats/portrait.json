@@ -1,0 +1,123 @@
+{
+  "ratio": "9:16",
+  "native_design": "9:16",
+  "width": 720,
+  "height": 1280,
+  "shots": [
+    {
+      "id": "hook",
+      "start": 0,
+      "end": 3,
+      "composition": "wide two-shot over a bare table, courier holds letter",
+      "action": "courier holds the letter out; clerk studies it",
+      "camera": {
+        "intent": "locked"
+      },
+      "transition": "continuous camera, no cut"
+    },
+    {
+      "id": "setup",
+      "start": 3,
+      "end": 7,
+      "composition": "same wide frame, first stack lands",
+      "action": "clerk offers a form; stack lands",
+      "camera": {
+        "intent": "slow push begins"
+      },
+      "transition": "continuous camera, no cut"
+    },
+    {
+      "id": "conflict",
+      "start": 7,
+      "end": 11.5,
+      "composition": "same wide frame, stacks 2 and 3 rise",
+      "action": "clerk offers twice more",
+      "camera": {
+        "intent": "slow push holds"
+      },
+      "transition": "continuous camera, no cut"
+    },
+    {
+      "id": "blocked",
+      "start": 11.5,
+      "end": 14.5,
+      "composition": "same frame, deliberate stillness",
+      "action": "courier resigns behind the wall of forms; quiet beat",
+      "camera": {
+        "intent": "held"
+      },
+      "transition": "continuous camera, no cut"
+    },
+    {
+      "id": "turn",
+      "start": 14.5,
+      "end": 17.5,
+      "composition": "push in slightly as the letter rises over the stacks",
+      "action": "courier lifts the letter; clerk reaches up and takes it",
+      "camera": {
+        "intent": "push in"
+      },
+      "transition": "continuous camera, no cut"
+    },
+    {
+      "id": "payoff",
+      "start": 17.5,
+      "end": 20,
+      "composition": "held close frame",
+      "action": "clerk holds the letter, offers another form, fourth stack lands",
+      "camera": {
+        "intent": "held"
+      },
+      "transition": "continuous camera, no cut"
+    }
+  ],
+  "cast_inventory": [
+    {
+      "id": "keeper",
+      "role": "clerk",
+      "shot_ids": [
+        "hook",
+        "setup",
+        "conflict",
+        "blocked",
+        "turn",
+        "payoff"
+      ]
+    },
+    {
+      "id": "runner",
+      "role": "courier",
+      "shot_ids": [
+        "hook",
+        "setup",
+        "conflict",
+        "blocked",
+        "turn",
+        "payoff"
+      ]
+    }
+  ],
+  "caption": {
+    "profile": "eiffel-v44-portrait-archivo-black-v1",
+    "native_design": "9:16",
+    "font_family": "Archivo Black",
+    "font_file": "fonts/ArchivoBlack.ttf",
+    "font_sha256": "dd9a89a019b4849f66ab75455fe7bdf931311042cbb0f0f97acc061539703180",
+    "font_size": 47,
+    "stroke": 4,
+    "fill": "#ffffff",
+    "stroke_fill": "#171319",
+    "supersampling": 3,
+    "resample": "lanczos",
+    "anchor": "ms",
+    "side": 44,
+    "switch": "hard_cut",
+    "autoshrink": false,
+    "pop": false,
+    "baseline": 914,
+    "band": [
+      864,
+      951
+    ]
+  }
+}

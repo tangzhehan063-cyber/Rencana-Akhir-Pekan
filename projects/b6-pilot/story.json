@@ -1,0 +1,27 @@
+{
+  "narration": "One letter. One signature. First, the form. Then the form for the form. Nobody could reach anybody. So he reached over it. Signed. Form 4 next.",
+  "beats": [
+    {
+      "id": "s1"
+    },
+    {
+      "id": "s2"
+    },
+    {
+      "id": "s3"
+    },
+    {
+      "id": "s4"
+    },
+    {
+      "id": "s5"
+    },
+    {
+      "id": "s6"
+    }
+  ],
+  "status": "authored",
+  "ledger": "story-ledger.json",
+  "sound": "none: silent pilot by request; captions carry the story",
+  "approval": null
+}

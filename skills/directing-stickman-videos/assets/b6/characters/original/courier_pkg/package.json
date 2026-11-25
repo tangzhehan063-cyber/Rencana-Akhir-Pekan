@@ -1,0 +1,470 @@
+{
+  "schema": "b6-puppet/1",
+  "binding_version": 2,
+  "character_id": "courier_pim",
+  "display_name": "Pim, the courier (original)",
+  "coordinate_system": {
+    "feet_origin": [
+      0,
+      0
+    ],
+    "x": "right",
+    "y": "down",
+    "units": "local painted stage pixels",
+    "body_origin": "fixed pelvis with separately world-planted ankles"
+  },
+  "views": {
+    "front": {
+      "facing": "forward",
+      "sprites": {
+        "body": {
+          "path": "front/body.png",
+          "sha256": "52bfbca59a19dbad4d80162edd89f52bc6e447e2fabdeaece62675d8285d7a5e",
+          "image_to_local": [
+            [
+              0.3333333333333333,
+              0,
+              -90
+            ],
+            [
+              0,
+              0.3333333333333333,
+              -270
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "head": {
+          "path": "front/head-neutral.png",
+          "sha256": "18a1ade3b0eb7537b29ff2e63e912ef5d70f48979829447d6315dacca3176931",
+          "image_to_local": [
+            [
+              0.4878048780487805,
+              0,
+              -90.0
+            ],
+            [
+              0,
+              0.4878048780487805,
+              -398.780487804878
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "heads": {
+          "neutral": {
+            "path": "front/head-neutral.png",
+            "sha256": "18a1ade3b0eb7537b29ff2e63e912ef5d70f48979829447d6315dacca3176931",
+            "image_to_local": [
+              [
+                0.4878048780487805,
+                0,
+                -90.0
+              ],
+              [
+                0,
+                0.4878048780487805,
+                -398.780487804878
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          },
+          "resigned": {
+            "path": "front/head-resigned.png",
+            "sha256": "83bfd04cbb9eda046276903a694deef8e88f14c5fd10497f5a8968f6c6498a5f",
+            "image_to_local": [
+              [
+                0.4878048780487805,
+                0,
+                -90.0
+              ],
+              [
+                0,
+                0.4878048780487805,
+                -398.780487804878
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          },
+          "relieved": {
+            "path": "front/head-relieved.png",
+            "sha256": "c57fdcb70035224c3b3cc2a78185944b399b39b314a56ef8730aaac1653d40e8",
+            "image_to_local": [
+              [
+                0.4878048780487805,
+                0,
+                -90.0
+              ],
+              [
+                0,
+                0.4878048780487805,
+                -398.780487804878
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "arms": {
+        "left": {
+          "socket": [
+            -60.781199215099086,
+            -208.3282011773514
+          ],
+          "exit_normal": [
+            -0.5547001962252291,
+            0.8320502943378437
+          ],
+          "exit_center": [
+            -63.0,
+            -205.0
+          ],
+          "outlet_segment": [
+            [
+              -72.0,
+              -211.0
+            ],
+            [
+              -54.0,
+              -199.0
+            ]
+          ],
+          "cuff_depth": 4,
+          "lengths": [
+            64,
+            62
+          ],
+          "pole": -1,
+          "upper_angle_range_deg": [
+            85,
+            110
+          ],
+          "elbow_bend_range_deg": [
+            5,
+            115
+          ],
+          "max_ik_offset": 80,
+          "ink_width": 3.6,
+          "hand_radius": 7.4,
+          "depth": "near",
+          "layer": "front",
+          "cuff": {
+            "path": "front/cuff-left.png",
+            "sha256": "4d4bba92845a70f3585916afd99f223e96a3e8f86b2c5f9eae6d5d7d292b81e0",
+            "image_to_local": [
+              [
+                0.3333333333333333,
+                0,
+                -90
+              ],
+              [
+                0,
+                0.3333333333333333,
+                -270
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          },
+          "poses": {
+            "rest": [
+              90,
+              10
+            ],
+            "reach": [
+              105,
+              65
+            ],
+            "offer": [
+              90,
+              110
+            ],
+            "receive": [
+              102,
+              95
+            ],
+            "retract": [
+              95,
+              40
+            ]
+          }
+        },
+        "right": {
+          "socket": [
+            60.781199215099086,
+            -208.3282011773514
+          ],
+          "exit_normal": [
+            0.5547001962252291,
+            0.8320502943378437
+          ],
+          "exit_center": [
+            63.0,
+            -205.0
+          ],
+          "outlet_segment": [
+            [
+              54.0,
+              -199.0
+            ],
+            [
+              72.0,
+              -211.0
+            ]
+          ],
+          "cuff_depth": 4,
+          "lengths": [
+            64,
+            62
+          ],
+          "pole": 1,
+          "upper_angle_range_deg": [
+            70,
+            95
+          ],
+          "elbow_bend_range_deg": [
+            5,
+            115
+          ],
+          "max_ik_offset": 80,
+          "ink_width": 3.6,
+          "hand_radius": 7.4,
+          "depth": "near",
+          "layer": "front",
+          "cuff": {
+            "path": "front/cuff-right.png",
+            "sha256": "7cee5777612c68c7abb900ecd9bb12d48ff3ec82fd901a69d82aa891f99c02a0",
+            "image_to_local": [
+              [
+                0.3333333333333333,
+                0,
+                -90
+              ],
+              [
+                0,
+                0.3333333333333333,
+                -270
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          },
+          "poses": {
+            "rest": [
+              90,
+              10
+            ],
+            "reach": [
+              75,
+              65
+            ],
+            "offer": [
+              90,
+              110
+            ],
+            "receive": [
+              78,
+              95
+            ],
+            "retract": [
+              85,
+              40
+            ]
+          }
+        }
+      },
+      "legs": {
+        "left": {
+          "hip": [
+            -18,
+            -92
+          ],
+          "ankle": [
+            -20,
+            -10.4
+          ],
+          "lengths": [
+            41,
+            41
+          ],
+          "ink_width": 3.6,
+          "foot_size": [
+            24,
+            15
+          ],
+          "foot_forward": 1,
+          "plant_y": 0,
+          "foot_asset": {
+            "path": "front/shoe-left.png",
+            "sha256": "61d0943020d25ac4aaf30ca92b6415dce4ac41a309ab130b76d93e61cb545f84",
+            "image_to_local": [
+              [
+                0.25,
+                0,
+                -13.0
+              ],
+              [
+                0,
+                0.25,
+                -5.0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          }
+        },
+        "right": {
+          "hip": [
+            22,
+            -92
+          ],
+          "ankle": [
+            24,
+            -10.4
+          ],
+          "lengths": [
+            41,
+            41
+          ],
+          "ink_width": 3.6,
+          "foot_size": [
+            24,
+            15
+          ],
+          "foot_forward": 1,
+          "plant_y": 0,
+          "foot_asset": {
+            "path": "front/shoe-right.png",
+            "sha256": "999eb61d1a580ada20d6f3c70434219829a50eae4dd2c81f8cc3cad3371424ee",
+            "image_to_local": [
+              [
+                0.25,
+                0,
+                -13.0
+              ],
+              [
+                0,
+                0.25,
+                -5.0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "ink_color": "#4a2e2e",
+      "arm_depth_order": [
+        "left",
+        "right"
+      ],
+      "neck_attachment": {
+        "mount_polygon": [
+          [
+            -10.192306387597952,
+            -266.2682926829268
+          ],
+          [
+            1.8076936124020477,
+            -266.2682926829268
+          ],
+          [
+            1.8076936124020477,
+            -263.2682926829268
+          ],
+          [
+            -10.192306387597952,
+            -263.2682926829268
+          ]
+        ],
+        "min_overlap_fraction": 0.7,
+        "min_overlap_thickness": 2.0
+      },
+      "metadata": {
+        "facing": "forward",
+        "view_authorship": "Original procedural painting (b6_original_cast.py); numeric rig fit borrowed, no bundled pixels"
+      }
+    }
+  },
+  "style": {
+    "reference": "B6 Sample1 Eiffel V44 grammar",
+    "paint": "matte mottled pigment anchored in sprite space; pressure-varying ink"
+  },
+  "provenance": {
+    "generator": "b6_original_cast.py",
+    "spec": {
+      "character_id": "courier_pim",
+      "display_name": "Pim, the courier (original)",
+      "skin": "#f8f0f2",
+      "skin_shadow": "#d6bfdc",
+      "hair": "#4a352e",
+      "hair_style": "cap",
+      "cap": "#35606a",
+      "blush": true,
+      "garment": "#3f7a86",
+      "shirt": "#efe3cc",
+      "trim": "#e8d9a8",
+      "strap": "#a23b36",
+      "pocket": true,
+      "lower": {
+        "style": "trousers",
+        "color": "#3d4a66",
+        "belt": "#5a3a26"
+      },
+      "shoes": {
+        "style": "sneaker",
+        "color": "#c8553d",
+        "sole": "#f1e8d8"
+      },
+      "default_expression": "neutral",
+      "expressions": [
+        "neutral",
+        "resigned",
+        "relieved"
+      ]
+    }
+  },
+  "required_views": [
+    "front"
+  ],
+  "tested_scope": {
+    "status": "stationary front view only; five authored arm actions",
+    "unverified": [
+      "walking",
+      "sitting",
+      "other views"
+    ]
+  }
+}
