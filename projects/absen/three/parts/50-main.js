@@ -72,6 +72,16 @@ window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting, compose, w
     if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
     const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = rotY;
     a.pose({blink: false, ...patch}, 0); cam(LV(-2, 0.95, 2.6), LV(-2, 0.82, -1.2), 42); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; },
+  // Body lineup: one actor per body spec, standing side by side (test-only; actors are created lazily and hidden after the render).
+  lineup(specs, patch = {}, rotY = 0.35) { resetAbsen(); lobbyBase(); this.bodies = this.bodies || {};
+    const n = specs.length, gap = 0.62, out = [];
+    specs.forEach((sp, i) => { const key = JSON.stringify(sp);
+      if (!this.bodies[key]) { const a = makeStick({tie: false, card: false, body: bodySpec(...[].concat(sp))}); a.setBlinkSeed(0); scene.add(a.root); this.bodies[key] = a; }
+      const a = this.bodies[key]; a.root.visible = true; a.root.position.copy(LV(-2 + (i - (n - 1) / 2) * gap, 0, -1.2)); a.root.rotation.y = rotY; a.pose({blink: false, ...patch}, 0);
+      const m = a.metrics; out.push({spec: sp, height: +m.height.toFixed(3), headsTall: +m.headsTall.toFixed(2), shoulderWidth: +m.shoulderWidth.toFixed(3), reach: +m.reach.toFixed(3), hipY: +m.hipY.toFixed(3)}); });
+    // fit width (portrait: horizontal half-tan of a 42 deg vertical fov ~0.216) and a 2.1 m tall figure
+    const w = (n - 1) * gap + 0.8, d = Math.max(3.0, w / 2 / 0.2); cam(LV(-2, 1.0, -1.2 + d), LV(-2, 0.95, -1.2), 42); scene.updateMatrixWorld(true); composer.render();
+    Object.values(this.bodies).forEach(a => a.root.visible = false); return out; },
   face(name, k = 1, genre = null, extra = {}) { resetAbsen(); lobbyBase();
     if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
     const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = 0;
