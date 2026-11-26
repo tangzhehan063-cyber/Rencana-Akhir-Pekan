@@ -1,0 +1,5 @@
+[
+{"start": 0.3, "end": 2.8, "text": "Contoh caption pertama.", "machine": false, "hold": 2.9},
+{"start": 3.4, "end": 6.2, "text": "Caption berasal dari narasi yang sudah di-align.", "machine": false, "hold": 6.3},
+{"start": 6.6, "end": 8.8, "text": "Suara mesin pakai gaya 'machine'.", "machine": true, "hold": 8.9}
+]
