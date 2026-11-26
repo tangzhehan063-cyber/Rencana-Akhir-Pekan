@@ -127,7 +127,7 @@ function makeStick(opts = {}) {
     const foot = new THREE.Mesh(new THREE.CapsuleGeometry(0.042, 0.07, 4, 10), toonBody); foot.rotation.x = Math.PI / 2; foot.scale.set(1.15, 1, 0.75); foot.position.set(0, -0.02, 0.045); foot.castShadow = true; ank.add(foot);
     return {hp, kn, ank}; };
   const LL = mkLeg(1), RL = mkLeg(-1);
-  let blinkSeed = Math.random() * 10;
+  let blinkSeed = 3.7; // fixed: renders must be repeatable
   function pose(p, t = 0) {
     const P = Object.assign({la: [0.05, 0.1], le: 0.15, ra: [0.05, 0.1], re: 0.15, ll: [0, 0.02], lk: 0, rl: [0, 0.02], rk: 0,
       head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1}, p);

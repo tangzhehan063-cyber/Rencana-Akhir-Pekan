@@ -8,6 +8,8 @@ Required before planning: [Sample 1 acceptance matrix](b6-sample-1-acceptance.md
 
 The required [installed production workflow](b6-installed-production.md) owns new-story execution. Apply the [motion execution and review gate](b6-motion-review.md) before authoring and at preview review: lock the relevant moving-reference abilities, verify their actual implementation, and separate technical results from motion quality and the user's decision. The user's brief must lead to a finished film through the agent; documentation, copied assets and unchanged V90 reproduction alone do not satisfy it. The default authoring project now carries the mature painted engine. The six-second blocking renderer is only an explicitly selected internal calibration example.
 
+Before art or animation, apply the [quality refinement](b6-quality-refinement.md): story-ledger gate, clothed-proportion packages and the temporal-stability audit.
+
 Use the [faster authoring path](b6-fast-iteration.md): [preflight imported characters](b6-character-preflight.md) before new paid narration/full encoding, schedule compatible fitted poses with [action helpers](b6-actions.md), then inspect a true lower-resolution 30fps draft using `scene.draft_frame` and `context.viewport`. Repair affected ranges before the current native preview. Drafts and change worklists grant no review passes; preserve all 35 final checks, original-speed full AV inspection, input fingerprints and the user's actual decision.
 
 ## Reference hierarchy and honest capability

@@ -1,0 +1,20 @@
+{
+  "schema": "b6-character-registry/1",
+  "actors": [
+    {
+      "id": "keeper",
+      "package": "characters/keeper",
+      "views": [
+        "front"
+      ]
+    },
+    {
+      "id": "runner",
+      "package": "characters/runner",
+      "views": [
+        "front"
+      ]
+    }
+  ],
+  "rigid_cast": []
+}

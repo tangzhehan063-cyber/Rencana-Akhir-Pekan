@@ -1,0 +1,4 @@
+{"character_id":"clerk_orla","display_name":"Orla, the clerk (original)","skin":"#f8f0f2","skin_shadow":"#d6bfdc","hair":"#9a9b96","hair_style":"swept",
+ "garment":"#6e3d5a","shirt":"#efe3cc","trim":"#d9b36a","pocket":true,
+ "lower":{"style":"trousers","color":"#4b4f57","belt":"#3a2c28"},"shoes":{"style":"dress","color":"#5a3a2a","sole":"#2e2220"},
+ "default_expression":"smug","expressions":["smug","flustered","relieved"]}

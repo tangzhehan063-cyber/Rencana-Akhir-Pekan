@@ -1,0 +1,109 @@
+{
+  "logline": "A man who wants to build a shelf buries himself in preparation until the preparation blocks the wall, then drives one screw.",
+  "protagonist": {
+    "wants": "to hang one shelf on his bedroom wall",
+    "flaw": "believes the next preparation will make starting safe"
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "role": "hook",
+      "wants": "hang the shelf today",
+      "action": "stands before the bare wall holding a single screw and does not move",
+      "obstacle": "the screw is the only tool he owns",
+      "visual_carrier": "man, bare wall, one screw, a tiny stack of unopened boxes behind him",
+      "changes": {
+        "kind": "stakes",
+        "detail": "we learn the whole film is one screw away"
+      },
+      "leads_to": "he decides he needs proper tools first",
+      "narration": "It was one screw. He owned the screw.",
+      "intensity": 2
+    },
+    {
+      "id": "s2",
+      "role": "setup",
+      "wants": "get the right equipment",
+      "action": "returns from the shop with a drill, then returns again with a laser level",
+      "obstacle": "each tool needs its own accessory",
+      "visual_carrier": "man staggers through the door under more boxes each trip, wall still bare",
+      "changes": {
+        "kind": "situation",
+        "detail": "the room starts filling with equipment"
+      },
+      "leads_to": "the equipment needs somewhere to be organised",
+      "narration": "He is not lazy. He is thorough. Those are different words.",
+      "intensity": 2
+    },
+    {
+      "id": "s3",
+      "role": "conflict",
+      "wants": "organise the tools before beginning",
+      "action": "builds a tool wall, then a rack for the tool wall's manuals",
+      "obstacle": "the tool wall is going on the only free wall",
+      "visual_carrier": "man hangs a huge pegboard across the exact spot where the shelf belongs",
+      "changes": {
+        "kind": "object_state",
+        "detail": "the pegboard now covers the target wall"
+      },
+      "leads_to": "the shelf has no wall left",
+      "narration": "",
+      "silent": true,
+      "intensity": 3
+    },
+    {
+      "id": "s4",
+      "role": "escalation",
+      "wants": "make space",
+      "action": "pushes boxes out; they pile against the door and window",
+      "obstacle": "every box he moves blocks something else",
+      "visual_carrier": "boxes seal the door, he is trapped inside the room with his tools",
+      "changes": {
+        "kind": "stakes",
+        "detail": "he can no longer leave or reach the wall"
+      },
+      "leads_to": "trapped, he sees the one screw on the floor",
+      "narration": "At this point the preparation was load-bearing.",
+      "intensity": 4
+    },
+    {
+      "id": "s5",
+      "role": "turning_point",
+      "wants": "get out",
+      "action": "finds the lone screw and, with no tools reachable, presses it into the plaster with his thumb",
+      "obstacle": "nothing in reach to turn it",
+      "visual_carrier": "he stares at the screw, then at the mountain, then twists the screw in with a coin",
+      "changes": {
+        "kind": "knowledge",
+        "detail": "he realises the screw never needed the mountain"
+      },
+      "leads_to": "a hung shelf needs only the board he forgot",
+      "narration": "",
+      "silent": true,
+      "intensity": 3
+    },
+    {
+      "id": "s6",
+      "roles": [
+        "payoff",
+        "ending"
+      ],
+      "wants": "see it hold",
+      "action": "hangs a single small book on the screw and sits on the box mountain",
+      "obstacle": "he doubts one screw can hold anything",
+      "visual_carrier": "one screw in a clear wall holds one small book while the room stays full of unopened boxes",
+      "changes": {
+        "kind": "emotion",
+        "detail": "relief turns to quiet pride, then a glance at the laser level"
+      },
+      "callback_to": "s1",
+      "narration": "He still has the laser level. For next time.",
+      "intensity": 1,
+      "joke": {
+        "setup_scene": "s2",
+        "payoff": "he eyes the laser level again",
+        "timing": "hold two beats on his glance before cut"
+      }
+    }
+  ]
+}

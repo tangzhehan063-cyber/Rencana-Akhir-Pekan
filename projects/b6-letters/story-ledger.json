@@ -1,0 +1,30 @@
+{
+  "logline": "A courier wants one letter signed; a clerk's insistence on the proper form builds a wall of forms until the courier hands the letter over it.",
+  "protagonist": {"wants": "to get one letter signed", "flaw": "waits politely for the clerk to finish preparing"},
+  "scenes": [
+    {"id": "s1", "role": "hook", "wants": "get one letter signed", "action": "holds the letter out over an empty table to the clerk",
+     "obstacle": "the clerk has not agreed to sign yet", "visual_carrier": "courier holds one letter over a bare table while the clerk studies it",
+     "changes": {"kind": "stakes", "detail": "the whole film is one signature away"}, "leads_to": "the clerk demands a proper form first",
+     "narration": "One letter. One signature.", "intensity": 2},
+    {"id": "s2", "role": "setup", "wants": "do it properly", "action": "clerk places a form on the table and nods at it",
+     "obstacle": "the form belongs before the letter", "visual_carrier": "clerk sets down a stack of forms beside the held letter",
+     "changes": {"kind": "object_state", "detail": "the table now holds a stack of forms"}, "leads_to": "one form needs another form behind it",
+     "narration": "First, the form.", "intensity": 2},
+    {"id": "s3", "role": "conflict", "wants": "keep it proper", "action": "clerk adds a second and third stack, one per offer",
+     "obstacle": "the stacks rise between the two men", "visual_carrier": "three stacks grow on the table between clerk and courier",
+     "changes": {"kind": "situation", "detail": "the stacks block the path to the clerk's hand"}, "leads_to": "the courier can no longer pass the letter across",
+     "narration": "Then the form for the form.", "intensity": 3},
+    {"id": "s4", "role": "escalation", "wants": "wait for the clerk to finish", "action": "courier stands still holding the letter low, beaten by the pile",
+     "obstacle": "the pile is higher than his reach", "visual_carrier": "courier lowers the letter and goes still behind a wall of forms",
+     "changes": {"kind": "emotion", "detail": "patience turns to resignation"}, "leads_to": "resignation makes him stop asking permission",
+     "narration": "Nobody could reach anybody.", "intensity": 4},
+    {"id": "s5", "role": "turning_point", "wants": "just hand it over", "action": "lifts the letter above the pile; clerk reaches up and takes it",
+     "obstacle": "the pile is in the way", "visual_carrier": "courier raises the letter over the stack and the clerk takes it from above",
+     "changes": {"kind": "knowledge", "detail": "the pile only blocked the low route"}, "leads_to": "the clerk now holds the letter and is still a clerk",
+     "narration": "So he reached over it.", "intensity": 3},
+    {"id": "s6", "roles": ["payoff", "ending"], "wants": "close the file properly", "action": "clerk nods, holds the letter, and offers one more form",
+     "obstacle": "the clerk is not done", "visual_carrier": "signed letter in the clerk's hand while a fourth stack lands on the table",
+     "changes": {"kind": "direction", "detail": "the signature is done but the forms continue"}, "callback_to": "s1",
+     "narration": "Signed. Form 4 next.", "intensity": 1}
+  ]
+}

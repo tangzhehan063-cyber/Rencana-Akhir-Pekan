@@ -1,0 +1,4 @@
+{"character_id":"courier_pim","display_name":"Pim, the courier (original)","skin":"#f8f0f2","skin_shadow":"#d6bfdc","hair":"#4a352e","hair_style":"cap","cap":"#35606a","blush":true,
+ "garment":"#3f7a86","shirt":"#efe3cc","trim":"#e8d9a8","strap":"#a23b36","pocket":true,
+ "lower":{"style":"trousers","color":"#3d4a66","belt":"#5a3a26"},"shoes":{"style":"sneaker","color":"#c8553d","sole":"#f1e8d8"},
+ "default_expression":"neutral","expressions":["neutral","resigned","relieved"]}
