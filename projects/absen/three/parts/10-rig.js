@@ -13,6 +13,7 @@ function inked(geo, mat, ink = INK, parent) { // mesh + back-face hull slightly 
 function capsuleInked(len, r) { const g = new THREE.Group();
   const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 6, 14), toonBody); m.position.y = -len / 2; m.castShadow = true;
   const o = new THREE.Mesh(new THREE.CapsuleGeometry(r + INK, len, 6, 14), inkMat); o.position.y = -len / 2; g.add(m, o); return g; }
+let _stickCount = 0;
 function makeStick(opts = {}) {
   const O = Object.assign({tie: true, card: true, cap: false, mustache: false, badge: false, belt: false}, opts);
   const HR = 0.14, LR = 0.043, TR = 0.064, UPPER = 0.28, FORE = 0.27, THIGH = 0.42, SHIN = 0.42, TORSO = 0.46;
@@ -41,6 +42,11 @@ function makeStick(opts = {}) {
   const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.008, 0.01), eyeMat); mouth.position.set(0, -0.055, EZ - 0.006); head.add(mouth);
   const mouthO = new THREE.Mesh(new THREE.TorusGeometry(0.013, 0.005, 6, 16), eyeMat); mouthO.position.set(0, -0.058, EZ - 0.004); head.add(mouthO);
   const mouthF = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.005, 6, 16, Math.PI * 0.8), eyeMat); mouthF.position.set(0, -0.075, EZ - 0.012); mouthF.rotation.z = Math.PI * 0.1; head.add(mouthF);
+  // expression-layer mouths (hidden unless pose() asks for them): smile arc (U-shape) and open mouth
+  const arc = (rot, y) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.005, 6, 16, Math.PI * 0.8), eyeMat); m.rotation.z = rot; g.add(m); g.position.set(0, y, EZ - 0.002); g.visible = false; head.add(g); return g; };
+  const mouthS = arc(Math.PI * 1.1, -0.042); // smile (U) ; mouthN = 'sad' frown (n) sitting on the head surface. Group takes scale/tilt so the base rotation does not skew width.
+  const mouthN = arc(Math.PI * 0.1, -0.078);
+  const mouthD = new THREE.Mesh(new THREE.SphereGeometry(0.02, 14, 10), eyeMat); mouthD.position.set(0, -0.06, EZ - 0.004); mouthD.scale.set(1, 0.6, 0.5); mouthD.visible = false; head.add(mouthD);
   const brows = [-0.045, 0.045].map(x => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.009, 0.01), eyeMat); b.position.set(x, 0.062, EZ - 0.01); head.add(b); return b; });
   if (O.cap) { const capMat = new THREE.MeshToonMaterial({color: 0x1f2d4f, gradientMap: toonRamp});
     const cap = inked(new THREE.CylinderGeometry(HR * 0.98, HR * 1.06, 0.09, 28), capMat, INK, head); cap.position.y = HR * 0.72; cap.userData.ol.scale.set(1.07, 1.12, 1.07);
@@ -64,10 +70,13 @@ function makeStick(opts = {}) {
     const foot = new THREE.Mesh(new THREE.CapsuleGeometry(0.042, 0.07, 4, 10), toonBody); foot.rotation.x = Math.PI / 2; foot.scale.set(1.15, 1, 0.75); foot.position.set(0, -0.02, 0.045); foot.castShadow = true; ank.add(foot);
     return {hp, kn, ank}; };
   const LL = mkLeg(1), RL = mkLeg(-1);
-  let blinkSeed = Math.random() * 10;
+  let blinkSeed = (_stickCount++ * 2.37 + 0.9) % 10; // deterministic per-actor default (was Math.random: re-renders could differ)
   function pose(p, t = 0) {
     const P = Object.assign({la: [0.05, 0.1], le: 0.15, ra: [0.05, 0.1], re: 0.15, ll: [0, 0.02], lk: 0, rl: [0, 0.02], rk: 0,
-      head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1}, p);
+      head: [0, 0], roll: 0, lean: 0, twist: 0, eyes: 1, look: [0, 0], mouth: 'flat', brow: 0, hipY: 0, point: 0, blink: true, breathe: 1,
+      // expression layer (all neutral by default => identical to the old pose()): see 12-expressions.js
+      byL: 0, byR: 0, lid: 0, cross: 0, eyeAsym: 0, pupilS: 1, mw: 1, mc: 1, my: 0, mx: 0, mtilt: 0, mo: 0.6, shrug: 0}, p);
+    L.sh.position.y = TORSO - 0.06 + 0.03 * P.shrug; R.sh.position.y = TORSO - 0.06 + 0.03 * P.shrug;
     L.sh.rotation.set(-P.la[0], 0, P.la[1]); L.el.rotation.set(-P.le, 0, 0);
     R.sh.rotation.set(-P.ra[0], 0, -P.ra[1]); R.el.rotation.set(-P.re, 0, 0);
     LL.hp.rotation.set(-P.ll[0], 0, P.ll[1]); LL.kn.rotation.set(P.lk, 0, 0); LL.ank.rotation.set(P.ll[0] - P.lk * 0.6, 0, 0);
@@ -77,10 +86,21 @@ function makeStick(opts = {}) {
     neck.rotation.set(-P.head[1], P.head[0], P.roll);
     // blink: ~every 3.2 s, 0.13 s long (deterministic in t)
     const cyc = (t + blinkSeed) % 3.2, bl = P.blink && cyc < 0.13 ? Math.sin(cyc / 0.13 * Math.PI) : 0;
-    eyes.forEach(e => { e.scale.set(0.8 * (0.85 + 0.15 * P.eyes), Math.max(0.08, 1.15 * P.eyes * (1 - bl)), 0.45); e.position.x = Math.sign(e.position.x) * 0.045 + P.look[0] * 0.015; e.position.y = 0.02 + P.look[1] * 0.015; });
-    pupils.forEach(p => p.visible = P.eyes > 1.15 && bl < 0.5);
-    mouth.visible = P.mouth === 'flat'; mouthO.visible = P.mouth === 'o'; mouthF.visible = P.mouth === 'frown';
-    brows.forEach((b, i) => { b.visible = Math.abs(P.brow) > 0.01; b.rotation.z = (i ? -1 : 1) * P.brow * 0.5; b.position.y = 0.062 + Math.abs(P.brow) * 0.012; });
+    eyes.forEach((e, i) => { const sg = i ? 1 : -1, es = i ? 1 - P.eyeAsym : 1 + P.eyeAsym, ei = P.eyes * es, lv = (i ? P.lidR : P.lidL) ?? P.lid;
+      const sy = Math.max(0.08, 1.15 * ei * (1 - bl));
+      e.scale.set(0.8 * (0.85 + 0.15 * ei), sy * (1 - lv), 0.45);
+      e.position.x = sg * 0.045 + P.look[0] * 0.015 - sg * P.cross * 0.02; e.position.y = 0.02 + P.look[1] * 0.015 - 0.019 * sy * lv; });
+    pupils.forEach(p => { p.visible = P.glint ?? (P.eyes > 1.15 && bl < 0.5); p.scale.setScalar(P.pupilS); });
+    const mk = P.mouth;
+    mouth.visible = mk === 'flat'; mouthO.visible = mk === 'o'; mouthF.visible = mk === 'frown'; mouthS.visible = mk === 'smile'; mouthN.visible = mk === 'sad'; mouthD.visible = mk === 'open';
+    mouth.position.set(P.mx, -0.055 + P.my, EZ - 0.006); mouth.rotation.z = P.mtilt; mouth.scale.set(P.mw, 1, 1);
+    mouthO.position.set(P.mx, -0.058 + P.my, EZ - 0.004); mouthO.scale.set(P.mw, P.mw, 1);
+    mouthF.position.set(P.mx, -0.075 + P.my, EZ - 0.012); mouthF.rotation.z = Math.PI * 0.1 + P.mtilt; mouthF.scale.set(P.mw, P.mc, 1);
+    mouthS.position.set(P.mx, -0.042 + P.my, EZ - 0.002); mouthS.rotation.z = P.mtilt; mouthS.scale.set(P.mw, P.mc, 1);
+    mouthN.position.set(P.mx, -0.078 + P.my, EZ - 0.002); mouthN.rotation.z = P.mtilt; mouthN.scale.set(P.mw, P.mc, 1);
+    mouthD.position.set(P.mx, -0.06 + P.my, EZ - 0.004); mouthD.rotation.z = P.mtilt; mouthD.scale.set(P.mw, P.mo * 1.3, 0.5);
+    brows.forEach((b, i) => { const bv = (i ? P.browR : P.browL) ?? P.brow, by = i ? P.byR : P.byL;
+      b.visible = Math.abs(bv) > 0.01 || Math.abs(by) > 0.01; b.rotation.z = (i ? -1 : 1) * bv * 0.5; b.position.y = 0.062 + Math.abs(bv) * 0.012 + by * 0.02; });
     L.finger.visible = P.point > 0.5;
   }
   pose({});
@@ -89,8 +109,8 @@ function makeStick(opts = {}) {
 // walk/run cycles; ph advances with travelled distance so feet do not slide (stride ~0.62 m per half-cycle)
 function walkPose(ph, amt = 1) {
   const s = Math.sin(ph), c = Math.cos(ph);
-  return {ll: [0.42 * s * amt, 0.02], lk: Math.max(0, -c) * 0.75 * amt + 0.05, rl: [-0.42 * s * amt, 0.02], rk: Math.max(0, c) * 0.75 * amt + 0.05,
-    la: [-0.35 * s * amt, 0.1], ra: [0.35 * s * amt, 0.1], le: 0.3, re: 0.3, hipY: -0.03 * Math.abs(Math.cos(ph)) * amt, twist: 0.08 * s * amt};
+  return {ll: [0.42 * s * amt, 0.02], lk: (Math.max(0, -c) * 0.75 + 0.05) * amt, rl: [-0.42 * s * amt, 0.02], rk: (Math.max(0, c) * 0.75 + 0.05) * amt,
+    la: [lerp(0.05, -0.35 * s, amt), 0.1], ra: [lerp(0.05, 0.35 * s, amt), 0.1], le: lerp(0.15, 0.3, amt), re: lerp(0.15, 0.3, amt), hipY: -0.03 * Math.abs(Math.cos(ph)) * amt, twist: 0.08 * s * amt};
 }
 const STRIDE = 0.62;
 function walkTo(actor, t, t0, t1, p0, p1, amt = 1) { // constant-speed walk from p0 to p1, returns pose patch

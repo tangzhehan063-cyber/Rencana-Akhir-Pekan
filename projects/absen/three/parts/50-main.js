@@ -20,7 +20,7 @@ const lookPass = new ShaderPass({uniforms: {tDiffuse: {value: null}, uCA: {value
       vec3 col = vec3(texture2D(tDiffuse, vUv + off).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - off).b);
       if (uCCTV > 0.5) { float l = dot(col, vec3(0.3,0.59,0.11)); col = vec3(l*0.92, l*1.02, l*0.95); col = (col-0.5)*1.25+0.5;
         col *= 0.88 + 0.12*sin(vUv.y*1280.0*1.6); col += (h(vUv*vec2(720.0,1280.0) + floor(uTime*30.0)) - 0.5)*0.09; }
-      col *= mix(1.0, smoothstep(0.95, 0.25, length(c*vec2(1.0,0.75))), 0.55*uVig);
+      col *= mix(1.0, (1.0 - smoothstep(0.25, 0.95, length(c*vec2(1.0,0.75)))), 0.55*uVig);
       gl_FragColor = vec4(col, 1.0); }`});
 composer.addPass(lookPass); composer.addPass(new OutputPass());
 
@@ -59,4 +59,22 @@ window.renderAt = (t) => {
   overlay(t);
   return s.name;
 };
+// Test-only hook (never called by renderAt): lets scripts/expression-sheet.cjs render a face close-up on a bare stickman.
+window.__lab = { names: Object.keys(EXPR), actor: null, expr, acting, compose, walkPose, lookBehind, track: poseTrack,
+  poseCases() { const w = Math.PI * 0.6; return {
+    ...Object.fromEntries(Object.keys(POSE).map(n => [n, POSE[n]])),
+    'run': run(w), 'sneak': sneak(w), 'wave': wave(0.1), 'talk': talk(0.5), 'lookAround': lookAround(0.7, 0), 'lookBehind(1)': lookBehind(1),
+    'tremble': poseAdd(POSE.idle, tremble(0.4, 3)), 'sitNervous': sitNervous(0.15),
+    'walk+lookBehind+nervous': compose(walkPose(w), lookBehind(1), expr('nervous', 1)), 'run+panicked': compose(run(w), expr('panicked', 1)),
+    'sneak+suspicious': compose(sneak(w), lookAround(0.7, 0), expr('suspicious', 1)), 'sit+talk': compose(POSE.sitting, talk(0.5), expr('annoyed', 0.7)),
+    'standing+side-eye': compose(POSE.armsCrossed, expr('suspicious', 1)), 'think+confused': compose(POSE.think, expr('confused', 1)) }; },
+  body(patch, rotY = 0.45) { resetAbsen(); lobbyBase();
+    if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
+    const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = rotY;
+    a.pose({blink: false, ...patch}, 0); cam(LV(-2, 0.95, 2.6), LV(-2, 0.82, -1.2), 42); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; },
+  face(name, k = 1, genre = null, extra = {}) { resetAbsen(); lobbyBase();
+    if (!this.actor) { this.actor = makeStick({tie: false, card: false}); scene.add(this.actor.root); }
+    const a = this.actor; a.root.visible = true; a.root.position.copy(LV(-2, 0, -1.2)); a.root.rotation.y = 0;
+    a.pose({...(typeof name === 'string' ? expr(name, k, genre) : name), blink: false, ...extra}, 0);
+    cam(LV(-2, 1.53, 0.5), LV(-2, 1.53, -1.2), 32); scene.updateMatrixWorld(true); composer.render(); a.root.visible = false; return name; } };
 window.sceneReady = true;
